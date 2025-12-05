@@ -1,0 +1,29 @@
+/* Scroll-gedrag + custom scrollbalk voor heel Study OS */
+
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  /* Scrollbar voor Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(246,222,156,0.65) rgba(0,0,0,0.7);
+}
+
+/* Scrollbar voor Chrome/Edge/Brave/Opera */
+body::-webkit-scrollbar {
+  width: 9px;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: rgba(246, 222, 156, 0.55);
+  border-radius: 999px;
+  border: 2px solid rgba(5, 5, 9, 1);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: rgba(246, 222, 156, 0.85);
+}

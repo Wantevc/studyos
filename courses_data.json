@@ -1,0 +1,308 @@
+[
+  {
+    "name": "Anatomie I",
+    "chapters": "8/12 hoofdstukken gescand",
+    "questions": "34 vragen gemaakt",
+    "tag": "Medisch · Bachelor",
+    "exam_date": "25 jan",
+    "progress": "mid",
+    "files": [],
+    "topics": [
+      "Hoofdstuk 1 – Beenderstelsel",
+      "Hoofdstuk 2 – Spierstelsel",
+      "Hoofdstuk 3 – Zenuwstelsel"
+    ],
+    "qa": [
+      {
+        "question": "Wat is het beenderstelsel?",
+        "answer": "Het beenderstelsel is het geheel van alle botten in het lichaam die het skelet vormen en het lichaam stevigheid en ondersteuning bieden."
+      },
+      {
+        "question": "Leg uit in eigen woorden hoe spieren samenwerken om beweging te veroorzaken.",
+        "answer": "Spieren werken samen doordat ze meestal in paren zitten waarbij de ene spier samentrekt terwijl de andere ontspant, zodat er gecontroleerde beweging mogelijk is."
+      },
+      {
+        "question": "Wat is het verschil tussen een skeletspier en een gladde spier?",
+        "answer": "Een skeletspier is vrijwillig en verbonden met het skelet, terwijl een gladde spier onwillekeurig is en voorkomt in organen zoals de maag en bloedvaten.",
+        "correct": 1
+      },
+      {
+        "question": "Wat is de functie van het zenuwstelsel?",
+        "answer": "Het zenuwstelsel regelt en coördineert lichaamsfuncties door signalen te sturen tussen hersenen, ruggenmerg en andere delen van het lichaam.",
+        "correct": 1
+      },
+      {
+        "question": "Leg uit in eigen woorden wat een gewricht is en waarom het belangrijk is.",
+        "answer": "Een gewricht is de plek waar twee botten samenkomen, wat beweging mogelijk maakt en het lichaam flexibel houdt.",
+        "correct": 1
+      },
+      {
+        "question": "Hoe kun je het verschil zien tussen een zenuwcel en een spiercel onder de microscoop?",
+        "answer": "Een zenuwcel heeft uitlopers zoals dendrieten en axonen voor signaaloverdracht, terwijl een spiercel langwerpig is met duidelijke contractiele vezels.",
+        "correct": 2
+      }
+    ],
+    "blocks": [],
+    "days_to_exam": null,
+    "progress_pct": 25,
+    "progress_label": "Bezig",
+    "mastered_questions": 4,
+    "total_questions": 6,
+    "risk_status": "Geen examendatum"
+  },
+  {
+    "name": "Biofysica",
+    "chapters": "5/9 hoofdstukken",
+    "questions": "22 vragen",
+    "tag": "Wetenschap",
+    "exam_date": "28 jan",
+    "progress": "high",
+    "files": [
+      "sof_paco_nl.pdf",
+      "course1_TheMoneyLabirinthFinalProtected.pdf"
+    ],
+    "topics": [
+      "Why Your Money Mindset Matters",
+      "Building the Foundation of Financial Success",
+      "The Wealth-Building Blueprint",
+      "Think Like an Investor",
+      "Tax Strategies for Smart Wealth-Building",
+      "The Power of Habits",
+      "Overcoming Setbacks",
+      "The Role of Vision and Goals",
+      "The Influence of Your Environment on Wealth",
+      "The Wealth of Connections",
+      "How You Present Yourself",
+      "Making Money Online"
+    ],
+    "qa": [
+      {
+        "question": "Wat is een money mindset en waarom is het belangrijk voor financiële succes?",
+        "answer": "Een money mindset is de houding en overtuigingen die iemand heeft over geld, en het beïnvloedt hoe ze met geld omgaan en financiële beslissingen maken.",
+        "correct": 1
+      },
+      {
+        "question": "Leg in eigen woorden uit wat de basisprincipes zijn voor het opbouwen van financiële stabiliteit.",
+        "answer": "De basisprincipes omvatten het beheren van uitgaven, sparen, het minimaliseren van schulden en het creëren van een budget om financiële doelen te bereiken."
+      },
+      {
+        "question": "Wat is het verschil tussen sparen en investeren in het kader van het opbouwen van vermogen?",
+        "answer": "Sparen betekent geld veilig opzijzetten met weinig risico maar lage opbrengst, terwijl investeren inhoudt dat je geld inzet met het doel om rendement te behalen, wat meer risico kan bevatten."
+      },
+      {
+        "question": "Hoe kunnen gewoonten bijdragen aan het vergroten van je financiële welvaart?",
+        "answer": "Goede gewoonten zoals regelmatig sparen, budgetteren en verantwoord uitgeven helpen consistentie en discipline te behouden, wat leidt tot groei van je vermogen."
+      },
+      {
+        "question": "Wat is een eenvoudige strategie om online geld te verdienen volgens het hoofdstuk 'Making Money Online'?",
+        "answer": "Een eenvoudige strategie is het starten van een online winkel of freelance diensten aanbieden via platforms om inkomsten te genereren."
+      },
+      {
+        "question": "Leg uit hoe je omgeving invloed kan hebben op het bereiken van financiële doelen.",
+        "answer": "Je omgeving, zoals vrienden en familie, kan motivatie bieden of juist negatief beïnvloeden, waardoor het makkelijker of moeilijker wordt om financiële doelen te behalen."
+      }
+    ],
+    "blocks": [],
+    "days_to_exam": null,
+    "summaries": {
+      "The Money Mindset": "Dit topic legt uit hoe je manier van denken over geld je financiële succes beïnvloedt. Een positieve en open houding tegenover geld zorgt ervoor dat je beter met geld omgaat en kansen herkent.",
+      "Building the Foundation of Financial Success": "Hier leer je de basisprincipes van financieel succes, zoals sparen, budgetteren en schulden vermijden. Het opbouwen van een stabiele financiële basis is essentieel voor later vermogen opbouwen.",
+      "The Wealth-Building Blueprint": "Dit hoofdstuk geeft een plan om vermogen op te bouwen, bijvoorbeeld door verstandig te investeren en slimme keuzes te maken. Het laat zien hoe je geld effectief kunt laten groeien door een goede strategie.",
+      "Thinking Like an Investor": "In dit onderdeel leer je hoe je financiële beslissingen neemt uit het perspectief van een investeerder. Het benadrukt het belang van risico-inschatting, geduld en kennis voordat je geld investeert.",
+      "Tax Strategies for Smart Wealth-Building": "Hier ontdek je hoe je met slimme belastingplanning meer geld kunt overhouden. Het gaat over legale manieren om belastingvoordelen te gebruiken voor het opbouwen van vermogen.",
+      "The Power of Habits": "Dit topic benadrukt dat goede financiële gewoontes, zoals regelmatig sparen of budgetteren, cruciaal zijn voor langdurig succes. Consistentie in positieve gewoontes maakt het verschil.",
+      "Overcoming Setbacks": "Hier leer je hoe je met financiële tegenslagen om kunt gaan en weer kunt herstellen. Door flexibel te zijn en door te zetten, kun je je financiële doelen alsnog bereiken.",
+      "The Role of Vision and Goals": "Dit onderdeel legt uit dat het hebben van duidelijke doelen en een visie je helpt gefocust te blijven. Het maakt plannen maken makkelijker en motiveert je om financieel succesvol te zijn."
+    },
+    "progress_pct": 41,
+    "progress_label": "Bezig",
+    "mastered_questions": 1,
+    "total_questions": 6,
+    "risk_status": "Geen examendatum",
+    "notes": {
+      "folders": [
+        {
+          "name": "Hoofdstuk 1",
+          "notes": [
+            {
+              "title": "Samenvatting",
+              "content": "Biofysica is een kunst? "
+            }
+          ]
+        }
+      ]
+    },
+    "ai_chat_history": [
+      {
+        "role": "user",
+        "content": "so"
+      },
+      {
+        "role": "user",
+        "content": "so"
+      },
+      {
+        "role": "assistant",
+        "content": "Er ging iets mis bij het genereren van een antwoord."
+      },
+      {
+        "role": "user",
+        "content": "test"
+      },
+      {
+        "role": "assistant",
+        "content": "Je test zegt me eigenlijk niets inhoudelijks over biofysica of de topics uit je planning. Als je een concrete vraag hebt over de stof, bijvoorbeeld een begrip of oefenvraag, help ik je graag duidelijk verder!"
+      },
+      {
+        "role": "user",
+        "content": "Kan je evne samenvatten wat je weet van dit vak"
+      },
+      {
+        "role": "assistant",
+        "content": "Biofysica is een vak dat de principes van de natuurkunde toepast op biologische systemen, zoals cellen, moleculen en organen. Je leert bijvoorbeeld hoe krachten, energie en beweging werken binnen levende organismen. Concreet gaat het om onderwerpen zoals celmechanica, energetica van processen, transport van stoffen en elektrische signalen in het lichaam. Dit helpt je te begrijpen hoe het leven functioneert op fysisch niveau. Kijk vooral naar je notities en oefenvragen in je blokplanning om de basisconcepten goed te oefenen richting het examen op 28 januari."
+      },
+      {
+        "role": "user",
+        "content": "Kan jij de bestanden en eofenvragene nzo lezen?"
+      },
+      {
+        "role": "assistant",
+        "content": "Nee, ik kan jouw bestanden en oefenvragen niet direct lezen. Maar als je hier tekst, vragen of notities plaatst, kan ik je daar wel mee helpen en uitleg geven!"
+      },
+      {
+        "role": "user",
+        "content": "Vertel iets meer wat ik nu hier in notities heb geschreven"
+      },
+      {
+        "role": "assistant",
+        "content": "In je notities staat nu alleen \"[Hoofdstuk 1] Samenvatting: Test that\", wat geen inhoudelijke informatie geeft over het onderwerp zelf. Het lijkt een placeholder of een begin van een samenvatting, maar er is nog geen echte uitleg of kerninformatie uit hoofdstuk 1 bijgeschreven. Voor meer nuttige notities kun je concreet de belangrijkste punten uit het eerste hoofdstuk invullen, zoals de definities, kernbegrippen en voorbeelden. Wil je helpen met het maken van zo’n samenvatting?"
+      },
+      {
+        "role": "user",
+        "content": "En nu?"
+      },
+      {
+        "role": "assistant",
+        "content": "Nu zou ik je aanraden om concreet te starten met het samenvatten van het eerste hoofdstuk of een oefenvraag te kiezen uit je blokplanning en die hier te delen. Dan help ik je stap voor stap met heldere uitleg, zodat je stof beter gaat begrijpen en voorbereiden op het examen. Wat wil je als eerst doen?"
+      },
+      {
+        "role": "user",
+        "content": "Nee nee kan je nu lezen wat ik in notities heb geschrevne?"
+      },
+      {
+        "role": "assistant",
+        "content": "Ik kan alleen lezen wat je hier typt en deelt in de chat. Ik kan dus niet direct in je bestanden of notities kijken. Als je iets uit je notities hier plaatst, help ik je graag verder met uitleg of samenvatten."
+      }
+    ]
+  },
+  {
+    "name": "Neurobiologie",
+    "chapters": "Nieuw vak",
+    "questions": "Nog geen vragen",
+    "tag": "Focusvak",
+    "exam_date": "2 feb",
+    "progress": "low",
+    "files": [],
+    "topics": [],
+    "qa": [],
+    "blocks": [],
+    "days_to_exam": null,
+    "progress_pct": 0,
+    "progress_label": "Opstart",
+    "mastered_questions": 0,
+    "total_questions": 0,
+    "risk_status": "Geen examendatum"
+  },
+  {
+    "name": "s",
+    "chapters": "s",
+    "questions": "s",
+    "tag": "s",
+    "exam_date": "ss",
+    "progress": "low",
+    "files": [],
+    "topics": [
+      "Hoofdstuk 55"
+    ],
+    "qa": [
+      {
+        "question": "a",
+        "answer": "—"
+      }
+    ],
+    "blocks": [],
+    "days_to_exam": null,
+    "progress_pct": 3,
+    "progress_label": "Opstart",
+    "mastered_questions": 0,
+    "total_questions": 1,
+    "risk_status": "Geen examendatum"
+  },
+  {
+    "name": "Study OS Demo",
+    "chapters": "3/6 hoofdstukken gescand",
+    "questions": "12 vragen gemaakt",
+    "tag": "Demo · Medisch",
+    "exam_date": "10 feb",
+    "progress": "mid",
+    "files": [
+      "demo_cursus_neuro.pdf"
+    ],
+    "topics": [
+      "Hoofdstuk 1 – Overzicht zenuwstelsel",
+      "Hoofdstuk 2 – Neuronen & synapsen",
+      "Hoofdstuk 3 – Klinische casussen"
+    ],
+    "qa": [
+      {
+        "question": "Wat is het verschil tussen een sensorisch en een motorisch neuron?",
+        "answer": "Sensorische neuronen brengen info naar het centrale zenuwstelsel; motorische neuronen sturen bevelen naar spieren/klieren."
+      },
+      {
+        "question": "Leg kort uit wat een synaps is.",
+        "answer": "Contactpunt tussen twee neuronen waar signaaloverdracht via neurotransmitters gebeurt."
+      }
+    ],
+    "blocks": [
+      {
+        "title": "Hoofdstuk 1 – Leesronde",
+        "duration": "30 min",
+        "when": "Vandaag"
+      },
+      {
+        "title": "Oefenvragen neuronen & synapsen",
+        "duration": "25 min",
+        "when": "Vandaag"
+      },
+      {
+        "title": "Herhaling flashcards casussen",
+        "duration": "20 min",
+        "when": "Morgen"
+      }
+    ],
+    "days_to_exam": null,
+    "progress_pct": 15,
+    "progress_label": "Opstart",
+    "mastered_questions": 0,
+    "total_questions": 2,
+    "risk_status": "Geen examendatum"
+  },
+  {
+    "name": "sss",
+    "chapters": "Nog geen hoofdstukken",
+    "questions": "Nog geen vragen",
+    "tag": "Nieuw vak",
+    "exam_date": "2025-12-25",
+    "progress": "low",
+    "files": [],
+    "topics": [],
+    "qa": [],
+    "blocks": [],
+    "days_to_exam": 21,
+    "progress_pct": 0,
+    "progress_label": "Opstart",
+    "mastered_questions": 0,
+    "total_questions": 0,
+    "risk_status": "Extra focus nodig"
+  }
+]

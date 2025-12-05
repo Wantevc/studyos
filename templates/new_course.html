@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Study OS – Nieuw vak</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg-deep: #050509;
+      --bg-deeper: #020307;
+      --glass-soft: rgba(10, 12, 20, 0.34);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      --text-main: #F8F7FD;
+      --text-muted: #A7A6BC;
+      --accent-gold: #F6DE9C;
+      --accent-gold-strong: #F4CB63;
+      --radius-lg: 18px;
+      --radius-xl: 26px;
+      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.86);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at 0% -20%, rgba(246,222,156,0.26), transparent 60%),
+        radial-gradient(circle at 100% 120%, rgba(150,120,255,0.15), transparent 55%),
+        linear-gradient(145deg, var(--bg-deep), var(--bg-deeper));
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      position: relative;
+    }
+
+    .line-layer {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      opacity: 0.75;
+    }
+    .line {
+      position: absolute;
+      bottom: -40px;
+      width: 120%;
+      height: 120px;
+      border-radius: 50%;
+      border-top: 1px solid rgba(246,222,156,0.55);
+      border-bottom: 1px solid rgba(246,222,156,0.15);
+      filter: blur(0.3px);
+      opacity: 0.55;
+      animation: floatLine 22s linear infinite;
+      transform-origin: center;
+    }
+    .line:nth-child(2) { bottom: -10px; opacity: 0.35; animation-duration: 30s; animation-direction: reverse; }
+    .line:nth-child(3) { bottom: 20px; opacity: 0.2; animation-duration: 38s; }
+
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 800px;
+      padding: 18px 14px 34px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, rgba(12, 13, 20, 0.95), rgba(12, 10, 6, 0.96));
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.85);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+    }
+    .nav-left { display: flex; align-items: center; gap: 10px; }
+    .nav-logo {
+      width: 36px; height: 36px; border-radius: 999px;
+      background: radial-gradient(circle at 30% 10%, #FFFFFF, #FFF8E1, #F6DE9C, #C29B3C);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.85), 0 10px 24px rgba(0,0,0,0.9);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: #2B1B04; font-weight: 800;
+    }
+    .nav-title-main { font-size: 18px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+    .nav-title-sub { font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-muted); }
+
+    .btn {
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: radial-gradient(circle at 25% 0%, #FFFDF3, #F6DE9C, #C69735);
+      color: #2B1B04;
+      box-shadow: 0 12px 26px rgba(0,0,0,0.9), 0 0 0 1px rgba(0,0,0,0.85);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 18px 36px rgba(0,0,0,0.95), 0 0 0 1px rgba(0,0,0,0.85); }
+
+    .workspace {
+      border-radius: var(--radius-xl);
+      background: linear-gradient(145deg, rgba(8, 10, 18, 0.96), rgba(14, 10, 6, 0.96));
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: var(--shadow-soft);
+      padding: 20px;
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .ws-title { font-size: 22px; font-weight: 600; }
+    .ws-title span.highlight { color: var(--accent-gold); }
+    .ws-sub { font-size: 13px; color: var(--text-muted); }
+
+    .course-form {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .form-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .form-row > div { flex: 1; min-width: 160px; }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    input[type="text"] {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 7px 12px;
+      background: rgba(0,0,0,0.4);
+      color: var(--text-main);
+      font-size: 13px;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent-gold-strong);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.9), 0 0 0 4px rgba(246,222,156,0.25);
+    }
+  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='scroll.css') }}">
+</head>
+<body>
+  <div class="line-layer">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+
+  <div class="app-shell">
+    <header class="nav">
+      <div class="nav-left">
+        <div class="nav-logo">S</div>
+        <div>
+          <div class="nav-title-main">STUDY OS</div>
+          <div class="nav-title-sub">AI STUDY SYSTEM</div>
+        </div>
+      </div>
+      <a href="/" class="btn btn-primary btn-small">Terug naar dashboard</a>
+    </header>
+
+    <main class="workspace">
+      <div>
+        <div class="ws-title"><span class="highlight">Nieuw vak</span> toevoegen</div>
+        <p class="ws-sub">
+          Vul hier de basisinfo in. Je kunt later altijd meer details, vragen en planning toevoegen.
+        </p>
+      </div>
+
+      <form class="course-form" method="post" action="/courses/new">
+        <div class="form-row">
+          <div>
+            <label>Naam van het vak *</label>
+            <input type="text" name="name" placeholder="Bijv. Anatomie I" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label>Label / richting</label>
+            <input type="text" name="tag" placeholder="Bijv. Medisch · Bachelor">
+          </div>
+          <div>
+            <label>Examendatum (YYYY-MM-DD)</label>
+<input type="text" name="exam_date" placeholder="Bijv. 2026-01-25">
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label>Hoofdstukken-status (optioneel)</label>
+            <input type="text" name="chapters" placeholder="Bijv. 0/10 hoofdstukken gescand">
+          </div>
+          <div>
+            <label>Vragen-status (optioneel)</label>
+            <input type="text" name="questions" placeholder="Bijv. Nog geen vragen">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top:8px;">Vak opslaan</button>
+      </form>
+    </main>
+  </div>
+</body>
+</html>

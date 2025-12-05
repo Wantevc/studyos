@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Export – {{ course.name }} | Study OS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg-deep: #050509;
+      --bg-paper: #0B0D15;
+      --border-soft: rgba(255, 255, 255, 0.16);
+      --text-main: #F8F7FD;
+      --text-muted: #A7A6BC;
+      --accent-gold: #F4CB63;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0% -20%, rgba(246,222,156,0.24), transparent 55%),
+        radial-gradient(circle at 100% 120%, rgba(96,165,250,0.16), transparent 55%),
+        linear-gradient(145deg, var(--bg-deep), #020308);
+      color: var(--text-main);
+      padding: 18px 12px 32px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 860px;
+      border-radius: 22px;
+      background: radial-gradient(circle at 0 0, rgba(244,203,99,0.10), transparent 65%),
+                  rgba(8,10,18,0.98);
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 26px 60px rgba(0,0,0,0.9);
+      padding: 22px 20px 24px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .topbar-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+    }
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent-gold);
+      box-shadow: 0 0 10px rgba(244,203,99,0.8);
+    }
+    h1 {
+      font-size: 22px;
+      margin: 0;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .topbar-actions a {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 10px;
+    }
+    .topbar-actions a:hover {
+      color: var(--text-main);
+      text-decoration: underline;
+    }
+
+    .meta-grid {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      background: rgba(0,0,0,0.35);
+      font-size: 13px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 6px 14px;
+    }
+    .meta-label {
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 2px;
+    }
+
+    .section {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .section:first-of-type {
+      border-top: none;
+      padding-top: 0;
+      margin-top: 16px;
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .section-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .list {
+      list-style: none;
+      padding-left: 0;
+      font-size: 13px;
+    }
+    .list li {
+      margin-bottom: 6px;
+    }
+
+    .topic-block {
+      margin-bottom: 10px;
+    }
+    .topic-name {
+      font-weight: 500;
+    }
+    .topic-summary {
+      font-size: 13px;
+      color: #E4E3FB;
+      margin-top: 2px;
+      white-space: pre-wrap;
+    }
+
+    .qa-item {
+      margin-bottom: 10px;
+    }
+    .qa-q {
+      font-weight: 500;
+    }
+    .qa-a {
+      margin-top: 2px;
+      color: #E4E3FB;
+      white-space: pre-wrap;
+    }
+
+    .plan-item {
+      margin-bottom: 6px;
+    }
+
+    .small-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 18px 14px 22px;
+      }
+      h1 {
+        font-size: 19px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span>Study OS · Export</span>
+        </div>
+        <h1>{{ course.name }}</h1>
+        <div class="subtitle">
+          {{ course.tag }} · Progress: {{ course.progress_pct or 0 }}% ({{ course.progress_label or "Opstart" }})
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <a href="{{ url_for('course_detail', course_id=course_id) }}">← Terug naar vak</a>
+        <a href="{{ url_for('home') }}">Dashboard</a>
+      </div>
+    </header>
+
+    <!-- Meta-info -->
+    <section class="section">
+      <div class="meta-grid">
+        <div>
+          <div class="meta-label">Examendatum</div>
+          <div>
+            {{ course.exam_date or "Onbekend" }}
+            {% if course.days_to_exam is not none %}
+              ·
+              {% if course.days_to_exam < 0 %}
+                examen voorbij
+              {% elif course.days_to_exam == 0 %}
+                vandaag
+              {% elif course.days_to_exam == 1 %}
+                over 1 dag
+              {% else %}
+                over {{ course.days_to_exam }} dagen
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+        <div>
+          <div class="meta-label">Status</div>
+          <div>{{ course.risk_status or "Onbekend" }}</div>
+        </div>
+        <div>
+          <div class="meta-label">Oefenvragen</div>
+          <div>
+            {{ course.total_questions or 0 }} totaal
+            {% if course.total_questions %}
+              · {{ course.mastered_questions or 0 }} beheerst
+            {% endif %}
+          </div>
+        </div>
+        <div>
+          <div class="meta-label">Bestanden</div>
+          <div>
+            {% if course.files %}
+              {{ course.files|length }} bestand(en) geüpload
+            {% else %}
+              Geen bestanden
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="small-note">
+        Tip: je kunt deze pagina printen of kopiëren als overzicht per vak.
+      </div>
+    </section>
+
+    <!-- Topics + summaries -->
+    <section class="section">
+      <div class="section-title">Topics & samenvattingen</div>
+      <div class="section-sub">
+        Overzicht van de kennisblokken in dit vak. Samenvattingen zijn AI-gegenereerd op basis van je cursusmateriaal.
+      </div>
+
+      {% if course.topics %}
+        {% for t in course.topics %}
+        <div class="topic-block">
+          <div class="topic-name">• {{ t }}</div>
+          {% if summaries.get(t) %}
+          <div class="topic-summary">
+            {{ summaries.get(t) }}
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      {% else %}
+      <div class="section-sub">
+        Nog geen topics toegevoegd voor dit vak.
+      </div>
+      {% endif %}
+    </section>
+
+    <!-- Oefenvragen -->
+    <section class="section">
+      <div class="section-title">Oefenvragen</div>
+      <div class="section-sub">
+        Vragen + eventuele modelantwoorden. Gebruik deze lijst als basis voor schriftelijk oefenen of mondelinge herhaling.
+      </div>
+
+      {% if course.qa %}
+        <div>
+          {% for item in course.qa %}
+          <div class="qa-item">
+            <div class="qa-q">Q: {{ item.question }}</div>
+            {% if item.answer %}
+            <div class="qa-a">A: {{ item.answer }}</div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+      <div class="section-sub">
+        Nog geen oefenvragen toegevoegd.
+      </div>
+      {% endif %}
+    </section>
+
+    <!-- Blokplanning -->
+    <section class="section">
+      <div class="section-title">Blokplanning</div>
+      <div class="section-sub">
+        Overzicht van de studieblokken die je voor dit vak hebt ingepland.
+      </div>
+
+      {% if course.blocks %}
+      <ul class="list">
+        {% for b in course.blocks %}
+        <li class="plan-item">
+          • {{ b.title }}
+          {% if b.when or b.duration %}
+            — {{ b.when or "Ongepland" }} · {{ b.duration or "?" }}
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <div class="section-sub">
+        Nog geen blokken ingepland.
+      </div>
+      {% endif %}
+    </section>
+  </div>
+</body>
+</html>

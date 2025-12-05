@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8" />
+    <title>Oefenen – {{ course.name }} | Study OS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='scroll.css') }}">
+    <style>
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at 0% 0%, rgba(244, 203, 99, 0.18), transparent 55%),
+                        radial-gradient(circle at 100% 100%, rgba(37, 99, 235, 0.14), #050509 60%);
+            color: #f8f7fd;
+        }
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(20px);
+            background: linear-gradient(to right, rgba(10, 10, 18, 0.96), rgba(10, 10, 18, 0.88));
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 10px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .topbar-title {
+            display: flex;
+            flex-direction: column;
+        }
+        .topbar-title span:first-child {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #f4cb63;
+        }
+        .topbar-title span:last-child {
+            font-size: 12px;
+            color: #a7a6bc;
+        }
+        .topbar-links a {
+            font-size: 13px;
+            color: #e4e3fb;
+            text-decoration: none;
+            margin-left: 16px;
+            opacity: 0.8;
+        }
+        .topbar-links a:hover {
+            opacity: 1;
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 32px 16px 40px;
+        }
+        .practice-card {
+            width: 100%;
+            max-width: 720px;
+            background: radial-gradient(circle at 0 0, rgba(244, 203, 99, 0.14), transparent 60%),
+                        rgba(13, 15, 27, 0.92);
+            border-radius: 26px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 26px 60px rgba(0, 0, 0, 0.85);
+            padding: 24px 24px 28px;
+            backdrop-filter: blur(22px);
+        }
+        .course-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(244, 203, 99, 0.6);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #f4cb63;
+            margin-bottom: 8px;
+        }
+        .practice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 10px;
+        }
+        .practice-header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .practice-meta {
+            font-size: 12px;
+            color: #a7a6bc;
+        }
+        .question-number {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: #a7a6bc;
+            margin-top: 8px;
+            margin-bottom: 4px;
+        }
+        .question-text {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .answer-area {
+            margin-top: 12px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 90px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.16);
+            background: rgba(5,5,12,0.9);
+            color: #f8f7fd;
+            padding: 10px 12px;
+            font-size: 13px;
+            resize: vertical;
+        }
+        textarea::placeholder {
+            color: #6e6c88;
+        }
+        .btn-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 14px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            border-radius: 999px;
+            padding: 8px 16px;
+            font-size: 13px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            background: none;
+            color: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #f4cb63, #e2b857);
+            color: #1b1305;
+            font-weight: 600;
+            border: none;
+        }
+        .btn-primary:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+        }
+        .btn-ghost {
+            border-color: rgba(255,255,255,0.22);
+            background: radial-gradient(circle at 0 0, rgba(244,203,99,0.1), transparent 55%);
+            color: #f8f7fd;
+        }
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.08);
+        }
+        .model-answer {
+            margin-top: 14px;
+            padding: 10px 12px;
+            border-radius: 18px;
+            background: rgba(7, 9, 18, 0.95);
+            border: 1px solid rgba(244, 203, 99, 0.4);
+            font-size: 13px;
+            line-height: 1.6;
+            display: none;
+        }
+        .model-answer-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #f4cb63;
+            margin-bottom: 4px;
+        }
+        .feedback-box {
+            margin-top: 14px;
+            padding: 10px 12px;
+            border-radius: 18px;
+            background: rgba(10, 16, 28, 0.96);
+            border: 1px solid rgba(56, 189, 248, 0.5);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .feedback-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #7dd3fc;
+            margin-bottom: 4px;
+        }
+        .nav-links-bottom {
+            margin-top: 18px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+        .nav-links-bottom a {
+            color: #a7a6bc;
+            text-decoration: none;
+        }
+        .nav-links-bottom a:hover {
+            color: #f8f7fd;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <header class="topbar">
+        <div class="topbar-title">
+            <span>STUDY OS</span>
+            <span>AI Study System · Oefenmodus</span>
+        </div>
+        <div class="topbar-links">
+            <a href="{{ url_for('home') }}">Dashboard</a>
+            <a href="{{ url_for('courses') }}">Vakken</a>
+            <a href="{{ url_for('course_detail', course_id=course_id) }}">Terug naar
+                {{ course.name }}</a>
+        </div>
+    </header>
+
+    <main class="content">
+        <section class="practice-card">
+            <div class="course-pill">{{ course.tag or "Vak" }}</div>
+            <div class="practice-header">
+                <h1>Oefenen: {{ course.name }}</h1>
+                <div class="practice-meta">
+                    Vraag {{ index + 1 }} van {{ total }}
+                </div>
+            </div>
+
+            <div class="question-number">
+                ACTIEVE VRAAG
+            </div>
+            <div class="question-text">
+                {{ question.question }}
+            </div>
+
+            <!-- Form voor je eigen antwoord + AI feedback -->
+            <form method="post" action="{{ url_for('practice_feedback', course_id=course_id) }}">
+                <input type="hidden" name="q_index" value="{{ index }}">
+                <div class="answer-area">
+                    <textarea name="user_answer"
+                              placeholder="Schrijf hier je antwoord (alleen voor jezelf, wordt niet opgeslagen)...">{{ user_answer or "" }}</textarea>
+                </div>
+
+                <div class="btn-row">
+                    <div>
+                        {% if has_prev %}
+                            <a class="btn btn-ghost"
+                               href="{{ url_for('practice', course_id=course_id, q=index-1) }}">← Vorige</a>
+                        {% endif %}
+                        {% if has_next %}
+                            <a class="btn btn-ghost"
+                               href="{{ url_for('practice', course_id=course_id, q=index+1) }}">Volgende →</a>
+                        {% endif %}
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <button class="btn btn-primary" type="submit">
+                            Vraag AI feedback
+                        </button>
+                        <button class="btn btn-ghost" type="button"
+                                onclick="document.getElementById('model-answer').style.display='block';">
+                            Toon modelantwoord
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Modelantwoord (uitklapbaar) -->
+            <div id="model-answer" class="model-answer">
+                <div class="model-answer-title">Modelantwoord</div>
+                <div>{{ question.answer }}</div>
+            </div>
+
+            <!-- Feedback van AI (optioneel) -->
+            {% if feedback %}
+            <div class="feedback-box">
+                <div class="feedback-title">AI feedback op jouw antwoord</div>
+                <div>{{ feedback }}</div>
+            </div>
+            {% endif %}
+
+            <div class="nav-links-bottom">
+                <a href="{{ url_for('course_detail', course_id=course_id) }}">← Terug naar {{ course.name }}</a>
+                <span>Blijf oefenen voor een betere score ✨</span>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
