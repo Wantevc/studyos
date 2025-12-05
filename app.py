@@ -885,8 +885,21 @@ def course_detail(course_id: int):
     else:
         return redirect(url_for("courses"))
 
-    return render_template("course_detail.html", course=course, course_id=course_id)
+    # welke subpagina van het vak willen we tonen?
+    view = request.args.get("view", "overview")
 
+    # progress / risk_status opnieuw berekenen (als je compute_course_progress hebt)
+    try:
+        compute_course_progress(course)
+    except Exception:
+        pass
+
+    return render_template(
+        "course_detail.html",
+        course=course,
+        course_id=course_id,
+        view=view,
+    )
 @app.route("/courses/<int:course_id>/delete", methods=["POST"])
 def delete_course(course_id: int):
     """
@@ -906,6 +919,145 @@ def delete_course(course_id: int):
 
     return redirect(url_for("courses"))
 
+@app.route("/courses/<int:course_id>/exam", methods=["GET", "POST"])
+def course_exam(course_id: int):
+    """
+    Pagina om een AI-examen te genereren voor dit vak.
+    GET: toon formulier (aantal vragen, knop 'Genereer examen').
+    POST: laat AI een examen genereren en bewaar het in course['exam_session'].
+    """
+    if not (0 <= course_id < len(courses_data)):
+        return redirect(url_for("courses"))
+
+    course = courses_data[course_id]
+    notes_data = ensure_notes_structure(course)
+
+    if request.method == "POST":
+        try:
+            num_q = int(request.form.get("num_questions", "10"))
+        except Exception:
+            num_q = 10
+        num_q = max(4, min(num_q, 30))  # 4–30 vragen
+
+        questions, error_text = ai_utils.generate_exam_for_course(
+            course=course,
+            notes_data=notes_data,
+            num_questions=num_q,
+        )
+
+        if questions:
+            course["exam_session"] = {
+                "questions": questions,
+                "num_questions": len(questions),
+            }
+            course["exam_result"] = None
+            save_courses()
+            return redirect(url_for("course_exam_take", course_id=course_id))
+
+        if error_text:
+            print("Exam gen error:", error_text)
+
+    # als er al een examen bestaat, laten we dat zien op de config-pagina
+    exam_session = course.get("exam_session")
+    exam_result = course.get("exam_result")
+
+    return render_template(
+        "exam.html",
+        course=course,
+        course_id=course_id,
+        mode="config",
+        exam_session=exam_session,
+        exam_result=exam_result,
+    )
+@app.route("/courses/<int:course_id>/exam/take", methods=["GET", "POST"])
+def course_exam_take(course_id: int):
+    """
+    Examen invullen + resultaat tonen.
+    GET: examenvragen tonen.
+    POST: antwoorden nakijken (multiple choice) en resultaat tonen.
+    """
+    if not (0 <= course_id < len(courses_data)):
+        return redirect(url_for("courses"))
+
+    course = courses_data[course_id]
+    exam_session = course.get("exam_session")
+    if not exam_session or not exam_session.get("questions"):
+        # als er geen examen is, terug naar config
+        return redirect(url_for("course_exam", course_id=course_id))
+
+    questions = exam_session["questions"]
+    results = []
+    score_mc = 0
+    total_mc = 0
+
+    if request.method == "POST":
+        for idx, q in enumerate(questions):
+            qtype = q.get("type", "open")
+            user_key = f"q{idx}"
+            user_answer = (request.form.get(user_key) or "").strip()
+
+            result_item = {
+                "type": qtype,
+                "question": q.get("question", ""),
+                "options": q.get("options", []),
+                "correct_option_index": q.get("correct_option_index", -1),
+                "model_answer": q.get("model_answer", ""),
+                "explanation": q.get("explanation", ""),
+                "user_answer": user_answer,
+                "is_correct": None,
+            }
+
+            if qtype == "mc":
+                total_mc += 1
+                try:
+                    user_index = int(user_answer)
+                except Exception:
+                    user_index = -1
+                correct_index = q.get("correct_option_index", 0)
+                is_correct = (user_index == correct_index)
+                result_item["is_correct"] = is_correct
+                if is_correct:
+                    score_mc += 1
+            else:
+                # open vraag: we beoordelen niet automatisch, alleen model-antwoord tonen
+                result_item["is_correct"] = None
+
+            results.append(result_item)
+
+        # simpele score op basis van multiple choice vragen
+        percentage = 0
+        if total_mc > 0:
+            percentage = int(round((score_mc / total_mc) * 100))
+
+        exam_result = {
+            "score_mc": score_mc,
+            "total_mc": total_mc,
+            "percentage": percentage,
+            "results": results,
+        }
+        course["exam_result"] = exam_result
+        save_courses()
+
+        return render_template(
+            "exam.html",
+            course=course,
+            course_id=course_id,
+            mode="result",
+            questions=questions,
+            exam_result=exam_result,
+            exam_session=exam_session,
+        )
+
+    # GET: examen invullen
+    return render_template(
+        "exam.html",
+        course=course,
+        course_id=course_id,
+        mode="take",
+        questions=questions,
+        exam_result=None,
+        exam_session=exam_session,
+    )
 
 @app.route("/courses/<int:course_id>/meta", methods=["POST"])
 def edit_course_meta(course_id: int):
@@ -942,6 +1094,23 @@ def edit_course_meta(course_id: int):
     attach_exam_countdown()
 
     return redirect(url_for("course_detail", course_id=course_id))
+
+@app.route("/backup")
+def backup_overview():
+    """
+    Grote export/backup-weergave van alle vakken (en eventueel projecten).
+    Alles netjes onder elkaar om te kunnen bewaren/kopiëren/printen.
+    """
+    attach_exam_countdown()
+
+    # Probeer projecten als ze bestaan, anders gewoon lege lijst
+    projects = globals().get("projects_data", [])
+
+    return render_template(
+        "backup.html",
+        courses=courses_data,
+        projects=projects,
+    )
 
 @app.route("/courses/<int:course_id>/export")
 def export_course(course_id: int):
@@ -1611,6 +1780,193 @@ def load_demo_course():
     save_courses()
     return redirect(url_for("home"))
 
+@app.route("/courses/<int:course_id>/notes/<int:folder_index>/notes/<int:note_index>/questions/auto", methods=["POST"])
+def auto_questions_from_note(course_id: int, folder_index: int, note_index: int):
+    """
+    AI: genereer oefenvragen op basis van de huidige notitie.
+    De nieuwe vragen worden toegevoegd aan course['qa'] voor dit vak.
+    """
+    if not (0 <= course_id < len(courses_data)):
+        return redirect(url_for("courses"))
+
+    course = courses_data[course_id]
+    notes_data = ensure_notes_structure(course)
+    folders = notes_data.get("folders") or []
+
+    # Check folder-index
+    if not folders or folder_index < 0 or folder_index >= len(folders):
+        # Geen geldige folder => terug naar notitie-overzicht
+        return redirect(url_for("course_notes", course_id=course_id))
+
+    folder = folders[folder_index]
+    notes_list = folder.get("notes") or []
+
+    # Check note-index
+    if not notes_list or note_index < 0 or note_index >= len(notes_list):
+        return redirect(url_for("course_notes", course_id=course_id, folder=folder_index))
+
+    active_note = notes_list[note_index]
+    note_title = active_note.get("title", "Ongetitelde notitie")
+    note_content = active_note.get("content", "")
+
+    # AI vragen genereren
+    new_questions, error_text = ai_utils.generate_questions_from_note(
+        course_name=course.get("name", "Onbekend vak"),
+        note_title=note_title,
+        note_content=note_content,
+        max_questions=6,
+    )
+
+    if new_questions:
+        course.setdefault("qa", [])
+        course["qa"].extend(new_questions)
+        save_courses()
+
+    if error_text:
+        print("AI vragen uit notitie error:", error_text)
+
+    # Terug naar dezelfde notitie
+    return redirect(
+        url_for(
+            "course_notes",
+            course_id=course_id,
+            folder=folder_index,
+            note=note_index,
+        )
+    )
+
+@app.route("/courses/<int:course_id>/notes/<int:folder_index>/notes/<int:note_index>/summary/auto", methods=["POST"])
+def auto_summary_from_note(course_id: int, folder_index: int, note_index: int):
+    """
+    AI: genereer een samenvatting op basis van de huidige notitie.
+    De samenvatting wordt als NIEUWE notitie in dezelfde map opgeslagen.
+    """
+    if not (0 <= course_id < len(courses_data)):
+        return redirect(url_for("courses"))
+
+    course = courses_data[course_id]
+    notes_data = ensure_notes_structure(course)
+    folders = notes_data.get("folders") or []
+
+    # Geldige folder?
+    if not folders or folder_index < 0 or folder_index >= len(folders):
+        return redirect(url_for("course_notes", course_id=course_id))
+
+    folder = folders[folder_index]
+    notes_list = folder.get("notes") or []
+
+    # Geldige note?
+    if not notes_list or note_index < 0 or note_index >= len(notes_list):
+        return redirect(url_for("course_notes", course_id=course_id, folder=folder_index))
+
+    source_note = notes_list[note_index]
+    note_title = source_note.get("title", "Ongetitelde notitie")
+    note_content = source_note.get("content", "")
+
+    summary_text, error_text = ai_utils.generate_summary_from_note(
+        course_name=course.get("name", "Onbekend vak"),
+        note_title=note_title,
+        note_content=note_content,
+    )
+
+    if summary_text:
+        summary_title = f"Samenvatting – {note_title}"
+        new_note = {
+            "title": summary_title,
+            "content": summary_text,
+        }
+
+        # Zorg dat de notes-lijst terug in de folder en course zit
+        folder["notes"].append(new_note)
+        # notes_data zit al op course["notes"] via ensure_notes_structure
+        course["notes"] = notes_data
+        save_courses()
+
+        # index van nieuwe note = laatste
+        new_index = len(folder["notes"]) - 1
+
+        return redirect(
+            url_for(
+                "course_notes",
+                course_id=course_id,
+                folder=folder_index,
+                note=new_index,
+            )
+        )
+
+    if error_text:
+        print("AI samenvatting uit notitie error:", error_text)
+
+    # Als er geen summary was, ga gewoon terug naar de originele note
+    return redirect(
+        url_for(
+            "course_notes",
+            course_id=course_id,
+            folder=folder_index,
+            note=note_index,
+        )
+    )
+
+@app.route("/courses/<int:course_id>/pdf/process", methods=["POST"])
+def process_pdf_ai(course_id: int):
+    if not (0 <= course_id < len(courses_data)):
+        return redirect(url_for("courses"))
+
+    course = courses_data[course_id]
+
+    # Verzamel tekst van ALLE PDF's van dit vak
+    all_text = ""
+    for filename in course.get("files", []):
+        path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        if filename.lower().endswith(".pdf"):
+            text = ai_utils.extract_text_from_pdf(path)
+            if text:
+                all_text += "\n" + text
+
+    # AI analyse
+    topics, summary, concepts, error = ai_utils.generate_structured_data_from_pdf(
+        course_name=course.get("name", "Onbekend vak"),
+        extracted_text=all_text,
+    )
+
+    if error:
+        print("PDF AI error:", error)
+        return redirect(url_for("course_detail", course_id=course_id))
+
+    # Topics toevoegen
+    if topics:
+        course.setdefault("topics", [])
+        for t in topics:
+            if t not in course["topics"]:
+                course["topics"].append(t)
+
+    # Samenvatting → nieuwe notitie
+    notes_data = ensure_notes_structure(course)
+
+    summary_note = {
+        "title": "Samenvatting uit PDF",
+        "content": summary,
+    }
+
+    concepts_note = {
+        "title": "Kernbegrippen uit PDF",
+        "content": "\n".join(f"- {c}" for c in concepts),
+    }
+
+    # in map 0 zetten, of nieuwe map "AI Extracties" maken
+    if notes_data["folders"]:
+        notes_data["folders"][0]["notes"].append(summary_note)
+        notes_data["folders"][0]["notes"].append(concepts_note)
+    else:
+        notes_data["folders"] = [{
+            "name": "AI Extracties",
+            "notes": [summary_note, concepts_note]
+        }]
+
+    course["notes"] = notes_data
+    save_courses()
+
+    return redirect(url_for("course_detail", course_id=course_id))
 
 if __name__ == "__main__":
     app.run(debug=True)

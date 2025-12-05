@@ -1,0 +1,10 @@
+__pycache__/
+.venv/
+env/
+uploads/
+*.pyc
+
+.env
+env.vercel
+courses_data.json
+projects_data.json

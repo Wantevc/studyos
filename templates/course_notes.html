@@ -577,7 +577,7 @@
           {% endif %}
         </article>
 
-        <!-- Rechts: editor -->
+         <!-- Rechts: editor -->
         <article class="panel">
           <div class="panel-title">Editor</div>
           <div class="panel-sub">
@@ -585,8 +585,12 @@
           </div>
 
           {% if active_folder and active_note %}
+           <!-- Formulier om de notitie zelf op te slaan -->
           <form method="post"
-                action="{{ url_for('save_note', course_id=course_id, folder_index=folder_index, note_index=note_index) }}"
+                action="{{ url_for('save_note',
+                                   course_id=course_id,
+                                   folder_index=folder_index,
+                                   note_index=note_index) }}"
                 style="display:flex; flex-direction:column; gap:6px; flex:1;">
             <input type="text"
                    class="editor-title"
@@ -602,11 +606,40 @@
               <span>
                 Map: {{ active_folder.name }} · Document {{ note_index + 1 }} van {{ active_folder.notes|length }}
               </span>
-              <button type="submit" class="btn btn-primary">
-                Opslaan
-              </button>
+              <button type="submit" class="btn btn-primary btn-small">Notitie opslaan</button>
             </div>
           </form>
+
+          <!-- APARTE form voor AI: oefenvragen -->
+          <form method="post"
+                action="{{ url_for('auto_questions_from_note',
+                                   course_id=course_id,
+                                   folder_index=folder_index,
+                                   note_index=note_index) }}"
+                style="margin-top:8px;">
+            <button type="submit" class="btn btn-ghost btn-small">
+              AI: maak oefenvragen van deze notitie
+            </button>
+          </form>
+
+          <!-- APARTE form voor AI: samenvatting -->
+          <form method="post"
+                action="{{ url_for('auto_summary_from_note',
+                                   course_id=course_id,
+                                   folder_index=folder_index,
+                                   note_index=note_index) }}"
+                style="margin-top:4px;">
+            <button type="submit" class="btn btn-ghost btn-small">
+              AI: maak samenvatting van deze notitie
+            </button>
+          </form>
+
+<form method="post" action="/courses/{{ course_id }}/pdf/process" style="margin-top:8px;">
+  <button type="submit" class="btn btn-ghost btn-small">
+    AI: Verwerk geüploade PDF
+  </button>
+</form>
+
           {% elif active_folder and not active_note %}
           <div class="panel-sub" style="margin-top:6px;">
             Nog geen notities in deze map. Voeg eerst een notitie toe links.

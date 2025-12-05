@@ -62,6 +62,12 @@
     .line:nth-child(2) { bottom: -10px; opacity: 0.35; animation-duration: 30s; animation-direction: reverse; }
     .line:nth-child(3) { bottom: 20px; opacity: 0.2; animation-duration: 38s; }
 
+    @keyframes floatLine {
+      0% { transform: translateX(-10%) rotate(0deg); }
+      50% { transform: translateX(0%) rotate(1deg); }
+      100% { transform: translateX(10%) rotate(0deg); }
+    }
+
     .app-shell {
       position: relative;
       z-index: 1;
@@ -163,11 +169,51 @@
       background: rgba(0,0,0,0.55);
     }
 
-    .detail-grid {
+    .view-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Overview cards */
+    .overview-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: 14px;
-      align-items: flex-start;
+      margin-top: 4px;
+    }
+    .overview-card {
+      border-radius: var(--radius-lg);
+      background: var(--glass-soft);
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.9);
+      padding: 12px 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+    .overview-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 40px rgba(0,0,0,0.95);
+      border-color: rgba(246,222,156,0.55);
+    }
+    .overview-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .overview-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .overview-footer {
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
     }
 
     .section-card {
@@ -319,40 +365,19 @@
       border-color: var(--accent-gold-strong);
       box-shadow: 0 0 0 1px rgba(0,0,0,0.9), 0 0 0 4px rgba(246,222,156,0.25);
     }
-/* Vak meta-edit */
-    .meta-form {
-      margin-top: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+
+    .view-nav {
       font-size: 12px;
-    }
-    .meta-row {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-    .meta-row input[type="text"],
-    .meta-row input[type="date"] {
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.18);
-      padding: 6px 10px;
-      background: rgba(0,0,0,0.4);
-      color: var(--text-main);
-      font-size: 12px;
-      flex: 1 1 140px;
-      max-width: 100%;
-    }
-    .meta-row input[type="text"]:focus,
-    .meta-row input[type="date"]:focus {
-      outline: none;
-      border-color: var(--accent-gold-strong);
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.9), 0 0 0 4px rgba(246,222,156,0.25);
-    }
-    .meta-help {
-      font-size: 11px;
       color: var(--text-muted);
-      margin-top: 2px;
+    }
+    .view-nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-right: 8px;
+    }
+    .view-nav a.active {
+      color: var(--accent-gold);
+      font-weight: 600;
     }
 
     @media (max-width: 880px) {
@@ -371,7 +396,7 @@
   </div>
 
   <div class="app-shell">
-     <header class="nav">
+    <header class="nav">
       <div class="nav-left">
         <div class="nav-logo">S</div>
         <div>
@@ -379,39 +404,11 @@
           <div class="nav-title-sub">AI STUDY SYSTEM</div>
         </div>
       </div>
-      <div>
-        <a href="{{ url_for('home') }}" class="btn btn-ghost btn-small" style="margin-right:6px;">
-          Dashboard
-        </a>
-        <a href="{{ url_for('courses') }}" class="btn btn-ghost btn-small" style="margin-right:6px;">
-          Vakken
-        </a>
-
-        <a href="{{ url_for('course_notes', course_id=course_id) }}"
-           class="btn btn-ghost btn-small"
-           style="margin-right:6px;">
-          Notitieblok
-        </a>
-
-        <a href="{{ url_for('export_course', course_id=course_id) }}"
-           class="btn btn-ghost btn-small"
-           style="margin-right:6px;">
-          Vak exporteren
-        </a>
-
-        <form method="post"
-              action="{{ url_for('delete_course', course_id=course_id) }}"
-              style="display:inline;"
-              onsubmit="return confirm('Weet je zeker dat je dit vak volledig wilt verwijderen? Dit kan niet ongedaan gemaakt worden.');">
-          <button type="submit" class="btn btn-ghost btn-small" style="border-color: rgba(248,113,113,0.7);">
-            Vak verwijderen
-          </button>
-        </form>
-      </div>
+      <a href="{{ url_for('home') }}" class="btn btn-primary btn-small">Terug naar dashboard</a>
     </header>
 
     <main class="workspace">
-       <section class="detail-header-card">
+      <section class="detail-header-card">
         <div>
           <div class="detail-main-title">{{ course.name }}</div>
           <div class="detail-subline">
@@ -434,21 +431,105 @@
                 {% endif %}
               {% endif %}
             </span>
-            <span class="pill-soft">
-              Progress:
-              {{ course.progress_pct or 0 }}%
-              ·
-              {{ course.progress_label or "Opstart" }}
-            </span>
-            <span class="pill-soft">
-              Status: {{ course.risk_status or "Onbekend" }}
-            </span>
+            {% if course.progress_pct is defined %}
+              <span class="pill-soft">
+                {{ course.progress_pct }}% · {{ course.progress_label or "Voortgang" }}
+              </span>
+            {% endif %}
+            {% if course.risk_status %}
+              <span class="pill-soft">
+                {{ course.risk_status }}
+              </span>
+            {% endif %}
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div class="view-label">
+            {% if view == "overview" %}Overzicht{% elif view == "files" %}Cursus & bestanden{% elif view == "topics" %}Knowledge map{% elif view == "questions" %}Oefenvragen{% elif view == "plan" %}Blokplanning{% else %}Detail{% endif %}
+          </div>
+          <div class="view-nav" style="margin-top:4px;">
+            <a href="{{ url_for('course_detail', course_id=course_id, view='overview') }}" class="{% if view=='overview' %}active{% endif %}">Overzicht</a>
+            <a href="{{ url_for('course_detail', course_id=course_id, view='files') }}" class="{% if view=='files' %}active{% endif %}">Bestanden</a>
+            <a href="{{ url_for('course_detail', course_id=course_id, view='topics') }}" class="{% if view=='topics' %}active{% endif %}">Knowledge map</a>
+            <a href="{{ url_for('course_detail', course_id=course_id, view='questions') }}" class="{% if view=='questions' %}active{% endif %}">Oefenvragen</a>
+            <a href="{{ url_for('course_detail', course_id=course_id, view='plan') }}" class="{% if view=='plan' %}active{% endif %}">Blokplanning</a>
           </div>
         </div>
       </section>
 
-      <section class="detail-grid">
-        <!-- Cursus uploaden -->
+      {% if view == "overview" %}
+      <!-- OVERZICHT MET CARDS -->
+      <section class="overview-grid">
+        <a class="overview-card" href="{{ url_for('course_detail', course_id=course_id, view='files') }}">
+          <div class="overview-title">Cursus & bestanden</div>
+          <div class="overview-sub">
+            Upload je PDF/slides. Later haalt Study OS hier automatisch structuur en info uit.
+          </div>
+          <div class="overview-footer">
+            <span>{{ (course.files|length) if course.files else 0 }} bestanden</span>
+            <span>Openen →</span>
+          </div>
+        </a>
+
+        <a class="overview-card" href="{{ url_for('course_detail', course_id=course_id, view='topics') }}">
+          <div class="overview-title">Knowledge map</div>
+          <div class="overview-sub">
+            Alle hoofdstukken en blokken van dit vak. Basis voor planning, samenvattingen en vragen.
+          </div>
+          <div class="overview-footer">
+            <span>{{ (course.topics|length) if course.topics else 0 }} topics</span>
+            <span>Openen →</span>
+          </div>
+        </a>
+
+        <a class="overview-card" href="{{ url_for('course_detail', course_id=course_id, view='questions') }}">
+          <div class="overview-title">Oefenvragen & oefenmodus</div>
+          <div class="overview-sub">
+            Vragen + modelantwoorden. Gebruik de AI of start oefenmodus.
+          </div>
+          <div class="overview-footer">
+            <span>{{ (course.qa|length) if course.qa else 0 }} vragen</span>
+            <span>Openen →</span>
+          </div>
+        </a>
+
+        <a class="overview-card" href="{{ url_for('course_detail', course_id=course_id, view='plan') }}">
+          <div class="overview-title">Blokplanning</div>
+          <div class="overview-sub">
+            Bouw een realistisch plan tot aan je examen, handmatig of met AI.
+          </div>
+          <div class="overview-footer">
+            <span>{{ (course.blocks|length) if course.blocks else 0 }} blokken</span>
+            <span>Openen →</span>
+          </div>
+        </a>
+
+        <a class="overview-card" href="{{ url_for('course_notes', course_id=course_id) }}">
+          <div class="overview-title">Notitieblok & AI coach</div>
+          <div class="overview-sub">
+            Schrijf samenvattingen, laat AI vragen/samenvattingen maken en chat met je vak-coach.
+          </div>
+          <div class="overview-footer">
+            <span>Open notitieblok</span>
+            <span>Openen →</span>
+          </div>
+        </a>
+
+        <a class="overview-card" href="{{ url_for('export_course', course_id=course_id) }}">
+          <div class="overview-title">Vak exporteren</div>
+          <div class="overview-sub">
+            Overzicht van topics, vragen, blokplanning en samenvattingen. Handig om te printen.
+          </div>
+          <div class="overview-footer">
+            <span>Exportpagina</span>
+            <span>Openen →</span>
+          </div>
+        </a>
+      </section>
+
+      {% elif view == "files" %}
+      <!-- BESTANDEN / CURSUS UPLOAD -->
+      <section>
         <article class="section-card">
           <div class="section-title">Cursus uploaden</div>
           <div class="section-sub">
@@ -470,12 +551,15 @@
           <div class="section-sub" style="margin-top:6px;">Nog geen bestanden geüpload.</div>
           {% endif %}
         </article>
+      </section>
 
-       <!-- Knowledge map -->
+      {% elif view == "topics" %}
+      <!-- KNOWLEDGE MAP -->
+      <section>
         <article class="section-card">
           <div class="section-title">Knowledge map</div>
           <div class="section-sub">
-            Maak hier een lijst van hoofdstukken / grote blokken. Gebruik AI om topics en korte samenvattingen te genereren.
+            Maak hier een lijst van hoofdstukken / grote blokken. Later kan Study OS deze automatisch vullen op basis van je cursus.
           </div>
 
           {% if course.topics %}
@@ -490,42 +574,15 @@
           </div>
           {% endif %}
 
-          <!-- AI-samenvattingen tonen (als ze bestaan) -->
-          {% if course.summaries %}
-          <div style="margin-top:10px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.1);">
-            <div class="section-sub" style="margin-bottom:4px; font-size:11px; text-transform:uppercase; letter-spacing:0.14em;">
-              Korte samenvattingen per topic
-            </div>
-            <ul class="topics-list">
-              {% for topic, summary in course.summaries.items() %}
-              <li style="margin-bottom:6px;">
-                <div style="font-weight:500; font-size:12px;">{{ topic }}</div>
-                <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">
-                  {{ summary }}
-                </div>
-              </li>
-              {% endfor %}
-            </ul>
-          </div>
-          {% endif %}
-
-          <!-- Topic handmatig toevoegen -->
           <form class="topic-form" method="post" action="/courses/{{ course_id }}/topics/add">
             <input type="text" name="topic_title" placeholder="Bijv. Hoofdstuk 1 – Inleiding" required>
             <button type="submit" class="btn btn-primary btn-small">+ Toevoegen</button>
           </form>
 
-          <!-- AI: topics genereren -->
           <form method="post" action="/courses/{{ course_id }}/topics/auto" style="margin-top:8px;">
             <button type="submit" class="btn btn-ghost btn-small">AI: topics genereren</button>
           </form>
 
-          <!-- AI: samenvattingen per topic -->
-          <form method="post" action="/courses/{{ course_id }}/summaries/auto" style="margin-top:4px;">
-            <button type="submit" class="btn btn-ghost btn-small">AI: samenvattingen per topic</button>
-          </form>
-
-          <!-- Alles wissen -->
           <form method="post" action="/courses/{{ course_id }}/topics/clear" style="margin-top:6px;">
             <button type="submit"
                     class="btn btn-ghost btn-small"
@@ -534,44 +591,38 @@
             </button>
           </form>
         </article>
+      </section>
 
-         <!-- Oefenvragen -->
+      {% elif view == "questions" %}
+      <!-- OEFENVRAAG VIEW -->
+      <section>
         <article class="section-card">
           <div class="section-title">Oefenvragen</div>
           <div class="section-sub">
-            Voeg hier actief vragen + antwoorden toe. Je kunt AI gebruiken om automatisch voorbeeldvragen te genereren en daarna oefenen in de oefenmodus of als flashcards.
-          </div>
-          <div class="section-sub" style="font-size:11px; margin-top:2px; color:var(--text-muted);">
-            Beheerst: {{ course.mastered_questions or 0 }} / {{ course.total_questions or 0 }} vragen
+            Voeg hier actief vragen + antwoorden toe. Je kunt ook de AI gebruiken om automatisch voorbeeldvragen te genereren of de oefenmodus starten.
           </div>
 
-          <!-- Start oefenmodus knop -->
-          <a href="{{ url_for('practice', course_id=course_id) }}"
-             class="btn btn-ghost btn-small"
-             style="margin-top:8px; margin-bottom:4px; display:inline-block;">
-            Start oefenmodus
-          </a>
+          <div style="margin-top:8px; margin-bottom:4px; display:flex; flex-wrap:wrap; gap:6px;">
+            <form method="post" action="/courses/{{ course_id }}/questions/auto">
+              <button type="submit" class="btn btn-ghost btn-small">AI: vragen genereren</button>
+            </form>
 
-          <!-- Flashcards mode knop -->
-          <a href="{{ url_for('flashcards', course_id=course_id) }}"
-             class="btn btn-ghost btn-small"
-             style="margin-left:4px; margin-top:8px; margin-bottom:4px; display:inline-block;">
-            Flashcards mode
-          </a>
+            <a href="{{ url_for('practice', course_id=course_id) }}" class="btn btn-ghost btn-small">
+              Start oefenmodus
+            </a>
 
-          <!-- AI-vragen genereren -->
-          <form method="post" action="/courses/{{ course_id }}/questions/auto" style="margin-top:4px; margin-bottom:4px;">
-            <button type="submit" class="btn btn-ghost btn-small">AI: vragen genereren</button>
-          </form>
+            <a href="{{ url_for('course_exam', course_id=course_id) }}" class="btn btn-ghost btn-small">
+              AI examen simulator
+            </a>
 
-          <!-- Alle vragen wissen -->
-          <form method="post" action="/courses/{{ course_id }}/questions/clear" style="margin-bottom:8px;">
-            <button type="submit"
-                    class="btn btn-ghost btn-small"
-                    onclick="return confirm('Weet je zeker dat je alle vragen voor dit vak wilt verwijderen?');">
-              Alle vragen wissen
-            </button>
-          </form>
+            <form method="post" action="/courses/{{ course_id }}/questions/clear">
+              <button type="submit"
+                      class="btn btn-ghost btn-small"
+                      onclick="return confirm('Weet je zeker dat je alle vragen voor dit vak wilt verwijderen?');">
+                Alle vragen wissen
+              </button>
+            </form>
+          </div>
 
           {% if course.qa %}
           <ul class="qa-list">
@@ -594,25 +645,30 @@
             <button type="submit" class="btn btn-primary btn-small">Vraag opslaan</button>
           </form>
         </article>
+      </section>
 
-        <!-- Blokplanning -->
+      {% elif view == "plan" %}
+      <!-- BLOKPLANNING VIEW -->
+      <section>
         <article class="section-card">
           <div class="section-title">Blokplanning</div>
           <div class="section-sub">
-            Plan je blokken tot aan het examen. Je kunt ook AI gebruiken om automatisch een aantal studieblokken te laten genereren.
+            Plan je blokken tot aan het examen. Je kunt ook de AI-demo gebruiken om automatisch een aantal studieblokken te laten genereren.
           </div>
 
-          <form method="post" action="/courses/{{ course_id }}/plan/auto" style="margin-top:8px; margin-bottom:4px;">
-            <button type="submit" class="btn btn-ghost btn-small">AI: planning genereren</button>
-          </form>
+          <div style="margin-top:8px; margin-bottom:4px; display:flex; flex-wrap:wrap; gap:6px;">
+            <form method="post" action="/courses/{{ course_id }}/plan/auto">
+              <button type="submit" class="btn btn-ghost btn-small">AI: planning genereren</button>
+            </form>
 
-          <form method="post" action="/courses/{{ course_id }}/plan/clear" style="margin-bottom:8px;">
-            <button type="submit"
-                    class="btn btn-ghost btn-small"
-                    onclick="return confirm('Weet je zeker dat je alle blokken voor dit vak wilt verwijderen?');">
-              Alle blokken wissen
-            </button>
-          </form>
+            <form method="post" action="/courses/{{ course_id }}/plan/clear">
+              <button type="submit"
+                      class="btn btn-ghost btn-small"
+                      onclick="return confirm('Weet je zeker dat je alle blokken voor dit vak wilt verwijderen?');">
+                Alle blokken wissen
+              </button>
+            </form>
+          </div>
 
           {% if course.blocks %}
           <ul class="plan-list">
@@ -642,40 +698,9 @@
             <button type="submit" class="btn btn-primary btn-small">Blok toevoegen</button>
           </form>
         </article>
-<!-- Vakgegevens bewerken -->
-        <article class="section-card">
-          <div class="section-title">Vakgegevens bewerken</div>
-          <div class="section-sub">
-            Pas hier de basisinfo van dit vak aan: naam, label, examendatum en korte beschrijving.
-          </div>
-
-          <form class="meta-form" method="post" action="{{ url_for('edit_course_meta', course_id=course_id) }}">
-            <div class="meta-row">
-              <input type="text" name="name" placeholder="Naam van het vak" value="{{ course.name }}">
-            </div>
-            <div class="meta-row">
-              <input type="text" name="tag" placeholder="Bijv. Medisch · Bachelor" value="{{ course.tag }}">
-            </div>
-            <div class="meta-row">
-              <input type="date" name="exam_date" value="{{ course.exam_date }}">
-            </div>
-            <div class="meta-row">
-              <input type="text" name="chapters" placeholder="Korte status hoofdstukken"
-                     value="{{ course.chapters }}">
-            </div>
-            <div class="meta-row">
-              <input type="text" name="questions" placeholder="Korte status vragen"
-                     value="{{ course.questions }}">
-            </div>
-            <div class="meta-help">
-              Leeg laten betekent: huidige waarde behouden (behalve examendatum – leeg maakt de datum leeg).
-            </div>
-            <button type="submit" class="btn btn-primary btn-small" style="margin-top:4px;">
-              Wijzigingen opslaan
-            </button>
-          </form>
-        </article>
       </section>
+
+      {% endif %}
     </main>
   </div>
 </body>

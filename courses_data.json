@@ -62,46 +62,20 @@
       "course1_TheMoneyLabirinthFinalProtected.pdf"
     ],
     "topics": [
+      "The Power of Money Mindset",
       "Why Your Money Mindset Matters",
+      "Fixed vs. Growth Mindset About Money",
+      "The Scarcity vs. Abundance Mentality",
+      "Overcoming Limiting Beliefs: Case Study",
+      "Shifting Mindsets for Opportunity",
       "Building the Foundation of Financial Success",
-      "The Wealth-Building Blueprint",
-      "Think Like an Investor",
-      "Tax Strategies for Smart Wealth-Building",
-      "The Power of Habits",
-      "Overcoming Setbacks",
-      "The Role of Vision and Goals",
-      "The Influence of Your Environment on Wealth",
-      "The Wealth of Connections",
-      "How You Present Yourself",
-      "Making Money Online"
+      "Pay Yourself First Principle",
+      "Automating Savings and Investments",
+      "The Power of Compound Interest",
+      "Starting Early with Investments",
+      "Practical Exercises for Mindset Change"
     ],
-    "qa": [
-      {
-        "question": "Wat is een money mindset en waarom is het belangrijk voor financiële succes?",
-        "answer": "Een money mindset is de houding en overtuigingen die iemand heeft over geld, en het beïnvloedt hoe ze met geld omgaan en financiële beslissingen maken.",
-        "correct": 1
-      },
-      {
-        "question": "Leg in eigen woorden uit wat de basisprincipes zijn voor het opbouwen van financiële stabiliteit.",
-        "answer": "De basisprincipes omvatten het beheren van uitgaven, sparen, het minimaliseren van schulden en het creëren van een budget om financiële doelen te bereiken."
-      },
-      {
-        "question": "Wat is het verschil tussen sparen en investeren in het kader van het opbouwen van vermogen?",
-        "answer": "Sparen betekent geld veilig opzijzetten met weinig risico maar lage opbrengst, terwijl investeren inhoudt dat je geld inzet met het doel om rendement te behalen, wat meer risico kan bevatten."
-      },
-      {
-        "question": "Hoe kunnen gewoonten bijdragen aan het vergroten van je financiële welvaart?",
-        "answer": "Goede gewoonten zoals regelmatig sparen, budgetteren en verantwoord uitgeven helpen consistentie en discipline te behouden, wat leidt tot groei van je vermogen."
-      },
-      {
-        "question": "Wat is een eenvoudige strategie om online geld te verdienen volgens het hoofdstuk 'Making Money Online'?",
-        "answer": "Een eenvoudige strategie is het starten van een online winkel of freelance diensten aanbieden via platforms om inkomsten te genereren."
-      },
-      {
-        "question": "Leg uit hoe je omgeving invloed kan hebben op het bereiken van financiële doelen.",
-        "answer": "Je omgeving, zoals vrienden en familie, kan motivatie bieden of juist negatief beïnvloeden, waardoor het makkelijker of moeilijker wordt om financiële doelen te behalen."
-      }
-    ],
+    "qa": [],
     "blocks": [],
     "days_to_exam": null,
     "summaries": {
@@ -114,10 +88,10 @@
       "Overcoming Setbacks": "Hier leer je hoe je met financiële tegenslagen om kunt gaan en weer kunt herstellen. Door flexibel te zijn en door te zetten, kun je je financiële doelen alsnog bereiken.",
       "The Role of Vision and Goals": "Dit onderdeel legt uit dat het hebben van duidelijke doelen en een visie je helpt gefocust te blijven. Het maakt plannen maken makkelijker en motiveert je om financieel succesvol te zijn."
     },
-    "progress_pct": 41,
+    "progress_pct": 33,
     "progress_label": "Bezig",
-    "mastered_questions": 1,
-    "total_questions": 6,
+    "mastered_questions": 0,
+    "total_questions": 0,
     "risk_status": "Geen examendatum",
     "notes": {
       "folders": [
@@ -126,74 +100,273 @@
           "notes": [
             {
               "title": "Samenvatting",
-              "content": "Biofysica is een kunst? "
+              "content": "De drie fasen van mijn eigen leerproces zijn: Verzamelen, Structureren, Spaced Repetition. Dit is gebasseerd op culturele verschillen."
+            },
+            {
+              "title": "Samenvatting uit PDF",
+              "content": "This course explores the critical role mindset plays in achieving financial success. It contrasts fixed and growth mindsets about money, explaining how limiting beliefs can hinder financial progress and how a growth mindset empowers individuals to learn and develop wealth management skills. It further differentiates scarcity and abundance mentalities, highlighting how the former leads to fear and inaction while the latter fosters opportunity and generosity. A case study demonstrates the transformative power of mindset shifts, showing how positive affirmations and deliberate financial actions enabled a young graduate to overcome debt and build wealth. The course emphasizes foundational habits such as 'pay yourself first', encouraging consistent savings by treating it as a non-negotiable expense. Finally, it introduces the concept of compound interest, illustrating how early and regular investments can grow wealth exponentially over time."
+            },
+            {
+              "title": "Kernbegrippen uit PDF",
+              "content": "- Money Mindset\n- Fixed Mindset\n- Growth Mindset\n- Limiting Beliefs\n- Scarcity Mentality\n- Abundance Mentality\n- Financial Freedom\n- Pay Yourself First\n- Automated Savings\n- Budgeting\n- Compound Interest\n- Investing\n- Financial Literacy\n- Mindset Shifts\n- Gratitude Practice\n- Financial Goals\n- Smart Work vs. Hard Work\n- Freelancing as Income Stream\n- Debt Management\n- Financial Progress Tracking"
             }
           ]
         }
       ]
     },
-    "ai_chat_history": [
-      {
-        "role": "user",
-        "content": "so"
-      },
-      {
-        "role": "user",
-        "content": "so"
-      },
-      {
-        "role": "assistant",
-        "content": "Er ging iets mis bij het genereren van een antwoord."
-      },
-      {
-        "role": "user",
-        "content": "test"
-      },
-      {
-        "role": "assistant",
-        "content": "Je test zegt me eigenlijk niets inhoudelijks over biofysica of de topics uit je planning. Als je een concrete vraag hebt over de stof, bijvoorbeeld een begrip of oefenvraag, help ik je graag duidelijk verder!"
-      },
-      {
-        "role": "user",
-        "content": "Kan je evne samenvatten wat je weet van dit vak"
-      },
-      {
-        "role": "assistant",
-        "content": "Biofysica is een vak dat de principes van de natuurkunde toepast op biologische systemen, zoals cellen, moleculen en organen. Je leert bijvoorbeeld hoe krachten, energie en beweging werken binnen levende organismen. Concreet gaat het om onderwerpen zoals celmechanica, energetica van processen, transport van stoffen en elektrische signalen in het lichaam. Dit helpt je te begrijpen hoe het leven functioneert op fysisch niveau. Kijk vooral naar je notities en oefenvragen in je blokplanning om de basisconcepten goed te oefenen richting het examen op 28 januari."
-      },
-      {
-        "role": "user",
-        "content": "Kan jij de bestanden en eofenvragene nzo lezen?"
-      },
-      {
-        "role": "assistant",
-        "content": "Nee, ik kan jouw bestanden en oefenvragen niet direct lezen. Maar als je hier tekst, vragen of notities plaatst, kan ik je daar wel mee helpen en uitleg geven!"
-      },
-      {
-        "role": "user",
-        "content": "Vertel iets meer wat ik nu hier in notities heb geschreven"
-      },
-      {
-        "role": "assistant",
-        "content": "In je notities staat nu alleen \"[Hoofdstuk 1] Samenvatting: Test that\", wat geen inhoudelijke informatie geeft over het onderwerp zelf. Het lijkt een placeholder of een begin van een samenvatting, maar er is nog geen echte uitleg of kerninformatie uit hoofdstuk 1 bijgeschreven. Voor meer nuttige notities kun je concreet de belangrijkste punten uit het eerste hoofdstuk invullen, zoals de definities, kernbegrippen en voorbeelden. Wil je helpen met het maken van zo’n samenvatting?"
-      },
-      {
-        "role": "user",
-        "content": "En nu?"
-      },
-      {
-        "role": "assistant",
-        "content": "Nu zou ik je aanraden om concreet te starten met het samenvatten van het eerste hoofdstuk of een oefenvraag te kiezen uit je blokplanning en die hier te delen. Dan help ik je stap voor stap met heldere uitleg, zodat je stof beter gaat begrijpen en voorbereiden op het examen. Wat wil je als eerst doen?"
-      },
-      {
-        "role": "user",
-        "content": "Nee nee kan je nu lezen wat ik in notities heb geschrevne?"
-      },
-      {
-        "role": "assistant",
-        "content": "Ik kan alleen lezen wat je hier typt en deelt in de chat. Ik kan dus niet direct in je bestanden of notities kijken. Als je iets uit je notities hier plaatst, help ik je graag verder met uitleg of samenvatten."
-      }
-    ]
+    "ai_chat_history": [],
+    "exam_session": {
+      "questions": [
+        {
+          "type": "mc",
+          "question": "Wat kenmerkt een 'fixed mindset' over geldten opzichte van een 'growth mindset'?",
+          "options": [
+            "Men gelooft dat financiële vaardigheden aangeboren zijn en niet te ontwikkelen.",
+            "Men ziet financiële successen als het gevolg van voortdurende ontwikkeling en leren.",
+            "Men gelooft dat geld beleggen risicovol is en vermijdt het daarom.",
+            "Men denkt dat geld altijd schaars is en er nooit genoeg is."
+          ],
+          "correct_option_index": 0,
+          "model_answer": "Een fixed mindset gaat ervan uit dat financiële vaardigheden vaststaan en niet veranderd kunnen worden.",
+          "explanation": "Een fixed mindset focust op onveranderlijke eigenschappen, terwijl een growth mindset juist nadruk legt op leren en groei."
+        },
+        {
+          "type": "mc",
+          "question": "Wat is het belangrijkste verschil tussen een 'scarcity mentality' en een 'abundance mentality'?",
+          "options": [
+            "Scarcity mentality moedigt sparen aan, abundance mentality moedigt uitgeven aan.",
+            "Scarcity mentality leidt tot angst en terughoudendheid, abundance mentality tot kansen en generositeit.",
+            "Scarcity mentality richt zich op investeren, abundance mentality op budgetteren.",
+            "Scarcity mentality is gericht op lange termijn, abundance mentality op korte termijn."
+          ],
+          "correct_option_index": 1,
+          "model_answer": "Scarcity mentality zorgt voor angst en inactiviteit, abundance mentality bevordert openheid en kansen zien.",
+          "explanation": "De scarcity mentality beperkt gedrag door angst voor gebrek, terwijl de abundance mentality juist mogelijkheden zoekt."
+        },
+        {
+          "type": "open",
+          "question": "Leg uit wat het principe 'Pay Yourself First' inhoudt en waarom het belangrijk is in financiële planning.",
+          "options": [],
+          "correct_option_index": -1,
+          "model_answer": "Het betekent dat je direct een deel van je inkomen opzijzet als sparen of investering voordat je aan andere uitgaven denkt. Dit zorgt voor gedisciplineerd sparen en bouwt financieel vermogen op.",
+          "explanation": "Door jezelf eerst te betalen voorkom je dat je spaargeld wordt opgebruikt aan consumptie."
+        },
+        {
+          "type": "mc",
+          "question": "Welke rol speelt automatisering in het kader van sparen en investeren?",
+          "options": [
+            "Automatisering verhoogt het risico op financiële fouten.",
+            "Automatisering zorgt ervoor dat sparen en investeren consistent en ongemerkt plaatsvindt.",
+            "Automatisering maakt budgetteren overbodig.",
+            "Automatisering vervangt de noodzaak om financiële doelen te stellen."
+          ],
+          "correct_option_index": 1,
+          "model_answer": "Automatisering maakt sparen en investeren makkelijk en consequent zonder dat je er elke keer aan moet denken.",
+          "explanation": "Dit principe helpt bij het creëren van goede financiële gewoonten en voorkomt dat sparen vergeten of uitgesteld wordt."
+        },
+        {
+          "type": "open",
+          "question": "Wat is de kracht van samengestelde interest en waarom is het belangrijk om hier vroeg mee te beginnen?",
+          "options": [],
+          "correct_option_index": -1,
+          "model_answer": "Samengestelde interest betekent dat rente ook over eerder verdiende rente wordt berekend, waardoor vermogen exponentieel kan groeien. Vroeg beginnen maximaliseert de tijd waarop dit effect kan plaatsvinden.",
+          "explanation": "Hoe langer het geld belegd blijft, hoe groter het resultaat door rente op rente."
+        },
+        {
+          "type": "mc",
+          "question": "Welke strategie helpt om beperkende overtuigingen over geld te overwinnen?",
+          "options": [
+            "Vast te houden aan wat altijd gewerkt heeft, ongeacht nieuwe inzichten.",
+            "Gebruik maken van positieve affirmaties en het bewust veranderen van financiële gewoonten.",
+            "Het vermijden van financiële risico’s ten koste van groeimogelijkheden.",
+            "Het minimaliseren van alle uitgaven tot het absoluut noodzakelijke."
+          ],
+          "correct_option_index": 1,
+          "model_answer": "Door positieve affirmaties en bewuste acties kun je oude, beperkende overtuigingen vervangen door constructieve overtuigingen.",
+          "explanation": "Mindsetverandering vraagt actieve inspanning en het doorbreken van oude patronen."
+        },
+        {
+          "type": "mc",
+          "question": "Welke van de volgende begrippen hoort NIET bij de core concepten van het vak biofysica zoals beschreven in de context?",
+          "options": [
+            "Financial Literacy",
+            "Compound Interest",
+            "Fixed vs Growth Mindset",
+            "Photosynthesis"
+          ],
+          "correct_option_index": 3,
+          "model_answer": "Photosynthesis hoort niet bij de besproken financiële en mindset begrippen.",
+          "explanation": "De context gaat over financiële mindset en principes, zonder natuurkundige biologische processen."
+        },
+        {
+          "type": "open",
+          "question": "Beschrijf kort hoe een case study een nuttig hulpmiddel kan zijn bij het begrijpen van mindset verschuivingen in financiële context.",
+          "options": [],
+          "correct_option_index": -1,
+          "model_answer": "Een case study toont realistische voorbeelden van hoe iemand succes kan behalen door mindset aan te passen. Het illustreert processen, uitdagingen en oplossingen concreet.",
+          "explanation": "Door praktijkvoorbeelden wordt theorie tastbaarder en beter toepasbaar."
+        },
+        {
+          "type": "mc",
+          "question": "Wat betekent 'financial freedom' volgens de besproken leerstof?",
+          "options": [
+            "Geen schulden hebben.",
+            "Zoveel geld hebben dat je nooit meer hoeft te werken.",
+            "Een situatie waarin je voldoende passief inkomen hebt om je levensstijl te ondersteunen zonder afhankelijk te zijn van een baan.",
+            "Altijd kunnen genieten van luxe uitgaven."
+          ],
+          "correct_option_index": 2,
+          "model_answer": "Financial freedom betekent voldoende passief inkomen genereren om zonder traditionele baan financieel onafhankelijk te zijn.",
+          "explanation": "Het gaat om onafhankelijkheid en keuzevrijheid, niet puur om rijkdom."
+        },
+        {
+          "type": "open",
+          "question": "Noem twee praktische oefeningen om een positieve mindset ten aanzien van geld te ontwikkelen.",
+          "options": [],
+          "correct_option_index": -1,
+          "model_answer": "1) Dagelijkse positieve affirmaties over geld herhalen; 2) Het bewust stellen en tracking van financiële doelen.",
+          "explanation": "Deze oefeningen helpen om bewustzijn en motivatie rondom geld te vergroten en negatieve overtuigingen te vervangen."
+        }
+      ],
+      "num_questions": 10
+    },
+    "exam_result": {
+      "score_mc": 3,
+      "total_mc": 6,
+      "percentage": 50,
+      "results": [
+        {
+          "type": "mc",
+          "question": "Wat kenmerkt een 'fixed mindset' over geldten opzichte van een 'growth mindset'?",
+          "options": [
+            "Men gelooft dat financiële vaardigheden aangeboren zijn en niet te ontwikkelen.",
+            "Men ziet financiële successen als het gevolg van voortdurende ontwikkeling en leren.",
+            "Men gelooft dat geld beleggen risicovol is en vermijdt het daarom.",
+            "Men denkt dat geld altijd schaars is en er nooit genoeg is."
+          ],
+          "correct_option_index": 0,
+          "model_answer": "Een fixed mindset gaat ervan uit dat financiële vaardigheden vaststaan en niet veranderd kunnen worden.",
+          "explanation": "Een fixed mindset focust op onveranderlijke eigenschappen, terwijl een growth mindset juist nadruk legt op leren en groei.",
+          "user_answer": "0",
+          "is_correct": true
+        },
+        {
+          "type": "mc",
+          "question": "Wat is het belangrijkste verschil tussen een 'scarcity mentality' en een 'abundance mentality'?",
+          "options": [
+            "Scarcity mentality moedigt sparen aan, abundance mentality moedigt uitgeven aan.",
+            "Scarcity mentality leidt tot angst en terughoudendheid, abundance mentality tot kansen en generositeit.",
+            "Scarcity mentality richt zich op investeren, abundance mentality op budgetteren.",
+            "Scarcity mentality is gericht op lange termijn, abundance mentality op korte termijn."
+          ],
+          "correct_option_index": 1,
+          "model_answer": "Scarcity mentality zorgt voor angst en inactiviteit, abundance mentality bevordert openheid en kansen zien.",
+          "explanation": "De scarcity mentality beperkt gedrag door angst voor gebrek, terwijl de abundance mentality juist mogelijkheden zoekt.",
+          "user_answer": "1",
+          "is_correct": true
+        },
+        {
+          "type": "open",
+          "question": "Leg uit wat het principe 'Pay Yourself First' inhoudt en waarom het belangrijk is in financiële planning.",
+          "options": [],
+          "correct_option_index": -1,
+          "model_answer": "Het betekent dat je direct een deel van je inkomen opzijzet als sparen of investering voordat je aan andere uitgaven denkt. Dit zorgt voor gedisciplineerd sparen en bouwt financieel vermogen op.",
+          "explanation": "Door jezelf eerst te betalen voorkom je dat je spaargeld wordt opgebruikt aan consumptie.",
+          "user_answer": "/",
+          "is_correct": null
+        },
+        {
+          "type": "mc",
+          "question": "Welke rol speelt automatisering in het kader van sparen en investeren?",
+          "options": [
+            "Automatisering verhoogt het risico op financiële fouten.",
+            "Automatisering zorgt ervoor dat sparen en investeren consistent en ongemerkt plaatsvindt.",
+            "Automatisering maakt budgetteren overbodig.",
+            "Automatisering vervangt de noodzaak om financiële doelen te stellen."
+          ],
+          "correct_option_index": 1,
+          "model_answer": "Automatisering maakt sparen en investeren makkelijk en consequent zonder dat je er elke keer aan moet denken.",
+          "explanation": "Dit principe helpt bij het creëren van goede financiële gewoonten en voorkomt dat sparen vergeten of uitgesteld wordt.",
+          "user_answer": "2",
+          "is_correct": false
+        },
+        {
+          "type": "open",
+          "question": "Wat is de kracht van samengestelde interest en waarom is het belangrijk om hier vroeg mee te beginnen?",
+          "options": [],
+          "correct_option_index": -1,
+          "model_answer": "Samengestelde interest betekent dat rente ook over eerder verdiende rente wordt berekend, waardoor vermogen exponentieel kan groeien. Vroeg beginnen maximaliseert de tijd waarop dit effect kan plaatsvinden.",
+          "explanation": "Hoe langer het geld belegd blijft, hoe groter het resultaat door rente op rente.",
+          "user_answer": "/",
+          "is_correct": null
+        },
+        {
+          "type": "mc",
+          "question": "Welke strategie helpt om beperkende overtuigingen over geld te overwinnen?",
+          "options": [
+            "Vast te houden aan wat altijd gewerkt heeft, ongeacht nieuwe inzichten.",
+            "Gebruik maken van positieve affirmaties en het bewust veranderen van financiële gewoonten.",
+            "Het vermijden van financiële risico’s ten koste van groeimogelijkheden.",
+            "Het minimaliseren van alle uitgaven tot het absoluut noodzakelijke."
+          ],
+          "correct_option_index": 1,
+          "model_answer": "Door positieve affirmaties en bewuste acties kun je oude, beperkende overtuigingen vervangen door constructieve overtuigingen.",
+          "explanation": "Mindsetverandering vraagt actieve inspanning en het doorbreken van oude patronen.",
+          "user_answer": "1",
+          "is_correct": true
+        },
+        {
+          "type": "mc",
+          "question": "Welke van de volgende begrippen hoort NIET bij de core concepten van het vak biofysica zoals beschreven in de context?",
+          "options": [
+            "Financial Literacy",
+            "Compound Interest",
+            "Fixed vs Growth Mindset",
+            "Photosynthesis"
+          ],
+          "correct_option_index": 3,
+          "model_answer": "Photosynthesis hoort niet bij de besproken financiële en mindset begrippen.",
+          "explanation": "De context gaat over financiële mindset en principes, zonder natuurkundige biologische processen.",
+          "user_answer": "1",
+          "is_correct": false
+        },
+        {
+          "type": "open",
+          "question": "Beschrijf kort hoe een case study een nuttig hulpmiddel kan zijn bij het begrijpen van mindset verschuivingen in financiële context.",
+          "options": [],
+          "correct_option_index": -1,
+          "model_answer": "Een case study toont realistische voorbeelden van hoe iemand succes kan behalen door mindset aan te passen. Het illustreert processen, uitdagingen en oplossingen concreet.",
+          "explanation": "Door praktijkvoorbeelden wordt theorie tastbaarder en beter toepasbaar.",
+          "user_answer": "/",
+          "is_correct": null
+        },
+        {
+          "type": "mc",
+          "question": "Wat betekent 'financial freedom' volgens de besproken leerstof?",
+          "options": [
+            "Geen schulden hebben.",
+            "Zoveel geld hebben dat je nooit meer hoeft te werken.",
+            "Een situatie waarin je voldoende passief inkomen hebt om je levensstijl te ondersteunen zonder afhankelijk te zijn van een baan.",
+            "Altijd kunnen genieten van luxe uitgaven."
+          ],
+          "correct_option_index": 2,
+          "model_answer": "Financial freedom betekent voldoende passief inkomen genereren om zonder traditionele baan financieel onafhankelijk te zijn.",
+          "explanation": "Het gaat om onafhankelijkheid en keuzevrijheid, niet puur om rijkdom.",
+          "user_answer": "1",
+          "is_correct": false
+        },
+        {
+          "type": "open",
+          "question": "Noem twee praktische oefeningen om een positieve mindset ten aanzien van geld te ontwikkelen.",
+          "options": [],
+          "correct_option_index": -1,
+          "model_answer": "1) Dagelijkse positieve affirmaties over geld herhalen; 2) Het bewust stellen en tracking van financiële doelen.",
+          "explanation": "Deze oefeningen helpen om bewustzijn en motivatie rondom geld te vergroten en negatieve overtuigingen te vervangen.",
+          "user_answer": "/",
+          "is_correct": null
+        }
+      ]
+    }
   },
   {
     "name": "Neurobiologie",
@@ -298,7 +471,7 @@
     "topics": [],
     "qa": [],
     "blocks": [],
-    "days_to_exam": 21,
+    "days_to_exam": 20,
     "progress_pct": 0,
     "progress_label": "Opstart",
     "mastered_questions": 0,

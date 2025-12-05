@@ -128,6 +128,166 @@ Let op:
         print("AI-fout bij vragen genereren:", e)
         return [], f"Er ging iets mis bij het genereren van vragen: {e}"
 
+def generate_questions_from_note(course_name: str, note_title: str, note_content: str, max_questions: int = 6):
+    """
+    Genereer oefenvragen op basis van de inhoud van één notitie.
+
+    Input:
+      - course_name: naam van het vak
+      - note_title: titel van de notitie
+      - note_content: volledige tekst van de notitie
+    Output:
+      - (vragen_lijst, error_text)
+        vragen_lijst = list[dict] met 'question' en 'answer'
+        error_text = None als alles ok, anders foutstring
+    """
+
+    note_content = (note_content or "").strip()
+    if not note_content:
+        return [], "Notitie is leeg; geen vragen gegenereerd."
+
+    title_text = (note_title or "Ongetitelde notitie").strip()
+
+    prompt = f"""
+Je bent een studie-assistent in een app genaamd Study OS.
+
+Vak: "{course_name}"
+Notitie-titel: "{title_text}"
+
+Hieronder staat de volledige tekst van de notitie van de student.
+Gebruik ALLEEN informatie uit deze notitie om vragen te maken.
+
+----------------- BEGIN NOTITIE -----------------
+{note_content}
+----------------- EINDE NOTITIE -----------------
+
+Opdracht:
+- Genereer maximaal {max_questions} goede oefenvragen op basis van deze notitie.
+- Gebruik verschillende vraagtypes:
+  - definitievragen ("Wat is ..."),
+  - begripsvragen ("Leg uit in eigen woorden ..."),
+  - vergelijkingsvragen,
+  - kleine toepassingsvragen.
+
+BELANGRIJK:
+- Antwoord in ÉÉN geldig JSON-object.
+- GEEN extra tekst, GEEN uitleg, GEEN markdown.
+- Alleen pure JSON, in exact deze structuur:
+
+{{
+  "questions": [
+    {{
+      "question": "Schrijf hier de vraag",
+      "answer": "Schrijf hier het beknopte, duidelijke modelantwoord"
+    }},
+    {{
+      "question": "Nog een vraag",
+      "answer": "Het bijhorende modelantwoord"
+    }}
+  ]
+}}
+
+Regels:
+- 'questions' moet altijd een lijst zijn.
+- Elke vraag heeft zowel 'question' als 'answer'.
+- Gebruik gewone dubbele aanhalingstekens in de JSON.
+- Gebruik geen kennis buiten de notitie (blijf bij de inhoud van de tekst).
+"""
+
+    try:
+        resp = client.responses.create(
+            model="gpt-4.1-mini",
+            input=prompt,
+        )
+
+        raw = resp.output_text.strip()
+        print("AI raw JSON voor vragen uit notitie:", raw)
+
+        data = json.loads(raw)
+        questions = data.get("questions", [])
+
+        if not isinstance(questions, list):
+            return [], "AI antwoordde geen lijst onder 'questions'."
+
+        cleaned = []
+        for q in questions:
+            if not isinstance(q, dict):
+                continue
+            vraag = (q.get("question") or "").strip()
+            antwoord = (q.get("answer") or "").strip()
+            if vraag and antwoord:
+                cleaned.append({"question": vraag, "answer": antwoord})
+
+        if not cleaned:
+            return [], "AI gaf geen bruikbare vragen terug uit de notitie."
+
+        return cleaned, None
+
+    except json.JSONDecodeError as e:
+        print("JSON parse fout bij AI-vragen uit notitie:", e)
+        return [], f"JSON-fout bij het verwerken van het AI-antwoord: {e}"
+
+    except Exception as e:
+        print("AI-fout bij vragen uit notitie genereren:", e)
+        return [], f"Er ging iets mis bij het genereren van vragen uit de notitie: {e}"
+
+def generate_summary_from_note(course_name: str, note_title: str, note_content: str) -> Tuple[str, str]:
+    """
+    Genereer een korte, duidelijke samenvatting op basis van één notitie.
+
+    Input:
+      - course_name: naam van het vak
+      - note_title: titel van de notitie
+      - note_content: volledige tekst van de notitie
+
+    Output:
+      - (summary_text, error_text)
+        summary_text = samenvatting (string) of "" als mislukking
+        error_text = None als ok, anders foutstring
+    """
+    note_content = (note_content or "").strip()
+    if not note_content:
+        return "", "Notitie is leeg; geen samenvatting gegenereerd."
+
+    title_text = (note_title or "Ongetitelde notitie").strip()
+
+    prompt = f"""
+Je bent een studie-assistent in de app Study OS.
+
+Vak: "{course_name}"
+Notitie-titel: "{title_text}"
+
+Hieronder staat de volledige tekst van de notitie van de student:
+
+----------------- BEGIN NOTITIE -----------------
+{note_content}
+----------------- EINDE NOTITIE -----------------
+
+Opdracht:
+- Maak een duidelijke, overzichtelijke samenvatting in het Nederlands.
+- Schrijf in 3 tot 8 korte alinea's of bullets.
+- Focus op de kernbegrippen, definities en verbanden.
+- Schrijf alsof je het uitlegt aan je toekomstige zelf vlak voor het examen.
+- Vermijd irrelevante details en herhaling.
+
+BELANGRIJK:
+- GEEN JSON, GEEN markdown codeblokken.
+- Gewoon normale, lopende tekst (je mag wel korte lijstjes gebruiken).
+"""
+
+    try:
+        resp = client.responses.create(
+            model="gpt-4.1-mini",
+            input=prompt,
+        )
+        text = resp.output_text.strip()
+        if not text:
+            return "", "AI gaf een leeg antwoord bij samenvatting."
+        return text, None
+    except Exception as e:
+        print("AI-fout bij samenvatting uit notitie:", e)
+        return "", f"Er ging iets mis bij het genereren van een samenvatting: {e}"
+
 
 def generate_topics_from_text(text, max_topics=12):
     """
@@ -338,7 +498,174 @@ def chat_with_course_assistant(
     ]
 
     return reply_text, new_history, error_text
+def generate_exam_for_course(
+    course: dict,
+    notes_data: dict,
+    num_questions: int = 10
+) -> Tuple[List[Dict], str]:
+    """
+    Genereer een examenset (mix van multiple choice + open vragen)
+    op basis van:
+      - course (topics, qa, blocks, summaries...)
+      - notes_data (notitie-mappen + inhoud)
 
+    Output:
+      - (questions_list, error_text)
+      - questions_list is een lijst van dicts met structuur:
+
+        {
+          "type": "mc" of "open",
+          "question": "vraagtekst",
+          "options": ["optie A", "optie B", ...],      # alleen bij type == "mc"
+          "correct_option_index": 1,                   # index in 'options'
+          "model_answer": "modelantwoord / oplossing",
+          "explanation": "korte uitleg"
+        }
+    """
+
+    # Bouw compacte context over het vak (hergebruik helper)
+    try:
+        context = _build_course_context(course, notes_data, max_chars=6000)
+    except Exception:
+        context = ""
+
+    course_name = course.get("name", "Onbekend vak")
+    exam_date = course.get("exam_date") or "Onbekend"
+
+    prompt = f"""
+Je bent een docent aan een hogeschool. Je maakt examen-vragen voor het vak "{course_name}".
+
+Hieronder heb je context over het vak, inclusief topics, oefenvragen, blokplanning en notities:
+
+---------------- CONTEXT ----------------
+{context}
+-----------------------------------------
+
+Opdracht:
+- Genereer een examen met in totaal {num_questions} vragen.
+- Mix:
+  - multiple choice vragen (minstens de helft)
+  - open vragen (kort open antwoord)
+- Niveau: realistisch hogeschool-examen (niet kinderachtig, maar ook niet onhaalbaar).
+- Zorg dat de vragen netjes de leerstof dekken die in de context staat.
+
+BELANGRIJK:
+- Geef je antwoord in ÉÉN geldig JSON-object, zonder extra tekst, zonder markdown.
+- Structuur EXACT als volgt:
+
+{{
+  "questions": [
+    {{
+      "type": "mc",
+      "question": "Volledige vraagtekst hier",
+      "options": [
+        "Antwoordoptie A",
+        "Antwoordoptie B",
+        "Antwoordoptie C",
+        "Antwoordoptie D"
+      ],
+      "correct_option_index": 1,
+      "model_answer": "Korte uitleg waarom dit het juiste antwoord is.",
+      "explanation": "Extra toelichting (optioneel, mag gelijk zijn aan model_answer)."
+    }},
+    {{
+      "type": "open",
+      "question": "Open vraag hier",
+      "options": [],
+      "correct_option_index": -1,
+      "model_answer": "Kort modelantwoord of kernpunten die verwacht worden.",
+      "explanation": "Korte uitleg van de oplossing."
+    }}
+  ]
+}}
+
+Regels:
+- 'questions' is altijd een lijst.
+- 'type' is ALTIJD ofwel "mc" ofwel "open".
+- Bij type "mc":
+  - 'options' moet minstens 3 en maximaal 6 opties bevatten.
+  - 'correct_option_index' is de 0-based index van het juiste antwoord in 'options'.
+- Bij type "open":
+  - 'options' is een lege lijst [].
+  - 'correct_option_index' = -1.
+- 'model_answer' is wat de docent ongeveer zou verwachten.
+- Gebruik gewone dubbele aanhalingstekens in de JSON.
+"""
+
+    try:
+        resp = client.responses.create(
+            model="gpt-4.1-mini",
+            input=prompt,
+        )
+        raw = resp.output_text.strip()
+        print("AI raw JSON voor examen:", raw)
+
+        data = json.loads(raw)
+        questions = data.get("questions", [])
+        if not isinstance(questions, list):
+            return [], "AI antwoordde geen lijst onder 'questions'."
+
+        cleaned: List[Dict] = []
+        for q in questions:
+            if not isinstance(q, dict):
+                continue
+
+            qtype = (q.get("type") or "").strip().lower()
+            question_text = (q.get("question") or "").strip()
+            model_answer = (q.get("model_answer") or "").strip()
+            explanation = (q.get("explanation") or "").strip()
+
+            if not question_text:
+                continue
+
+            if qtype == "mc":
+                options = q.get("options") or []
+                if not isinstance(options, list) or len(options) < 2:
+                    continue
+                options = [str(o).strip() for o in options if str(o).strip()]
+                if not options:
+                    continue
+                try:
+                    ci = int(q.get("correct_option_index", 0))
+                except Exception:
+                    ci = 0
+                if ci < 0 or ci >= len(options):
+                    ci = 0
+
+                cleaned.append({
+                    "type": "mc",
+                    "question": question_text,
+                    "options": options,
+                    "correct_option_index": ci,
+                    "model_answer": model_answer or f"Correct antwoord: {options[ci]}",
+                    "explanation": explanation or model_answer or ""
+                })
+
+            else:
+                # open vraag (fallback als type onbekend)
+                cleaned.append({
+                    "type": "open",
+                    "question": question_text,
+                    "options": [],
+                    "correct_option_index": -1,
+                    "model_answer": model_answer or "",
+                    "explanation": explanation or ""
+                })
+
+        if not cleaned:
+            return [], "AI gaf geen bruikbare examenvragen terug."
+
+        # trim op max num_questions
+        cleaned = cleaned[:num_questions]
+        return cleaned, None
+
+    except json.JSONDecodeError as e:
+        print("JSON-fout bij AI examen:", e)
+        return [], f"JSON-fout bij het parsen van het examen: {e}"
+
+    except Exception as e:
+        print("AI-fout bij examen genereren:", e)
+        return [], f"Er ging iets mis bij het genereren van het examen: {e}"
 
 def extract_text_from_pdf(filepath):
     """
@@ -621,3 +948,65 @@ Geen JSON, geen lijst met bulletpoints, gewoon normale lopende tekst.
     except Exception as e:
         print("AI-fout bij answer feedback:", e)
         return f"Er ging iets mis bij het genereren van feedback: {e}"
+
+def generate_structured_data_from_pdf(course_name: str, extracted_text: str, max_topics: int = 12):
+    """
+    Neemt pure tekst van een PDF en genereert:
+    - topics
+    - samenvatting
+    - kernbegrippen (key concepts)
+
+    Retourneert: (topics_list, summary_text, concepts_list, error)
+    """
+
+    if not extracted_text.strip():
+        return [], "", [], "Geen tekst gevonden in PDF."
+
+    prompt = f"""
+Je bent een AI-studieassistent in Study OS.
+
+Vak: "{course_name}"
+
+Hieronder staat de volledige tekst van een geüploade cursus (PDF):
+
+----------------------  
+{extracted_text[:6000]}  
+----------------------
+
+Genereer de volgende elementen:
+
+1. Een lijst met maximaal {max_topics} topics / hoofdstukken.
+2. Een korte samenvatting van maximaal 6 alinea's.
+3. Een lijst van 10-20 kernbegrippen (key concepts) die centraal staan in dit vak.
+
+BELANGRIJK:
+- Antwoord in ÉÉN geldig JSON-object, zonder extra tekst.
+- Structuur EXACT zo:
+
+{{
+  "topics": ["...", "..."],
+  "summary": "Korte samenvatting hier...",
+  "concepts": ["...", "..."]
+}}
+"""
+
+    try:
+        resp = client.responses.create(
+            model="gpt-4.1-mini",
+            input=prompt
+        )
+
+        raw = resp.output_text.strip()
+        print("AI raw JSON voor PDF:", raw)
+
+        data = json.loads(raw)
+
+        topics = data.get("topics", [])
+        summary = data.get("summary", "")
+        concepts = data.get("concepts", [])
+
+        return topics, summary, concepts, None
+
+    except Exception as e:
+        print("AI-fout PDF:", e)
+        return [], "", [], f"AI-fout: {e}"
